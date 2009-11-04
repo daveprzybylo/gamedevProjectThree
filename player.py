@@ -19,15 +19,16 @@ class Player(DirectObject):
        self._setup_actions()
 
     def _load_models(self):
-        pass
+        self._model = Actor("player")
+        self._model.reparentTo(render)
 
     def _load_lights(self):
         pass
 
     def _configure_camera(self):
-        camera.reparentTo(self.model)
+        camera.reparentTo(self._model)
         camera.setPos(0, 1200, 1800)
-        camera.setHpr(180, -15, 0)
+        camera.setHpr(0, -15, 0)
 
     def _setup_actions(self):
         self.accept("arrow_up", self._set_key, ["forward", 1])
