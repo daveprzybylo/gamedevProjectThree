@@ -23,7 +23,12 @@ class Player(DirectObject):
         self._model.reparentTo(render)
 
     def _load_lights(self):
-        pass
+        self._headlight = Spotlight('player-headlight')
+        self._headlight.setColor((1,1,1,1))
+        #self._headlight.showFrustum()
+        headlight_path = self._model.attachNewNode(self._headlight)
+        headlight_path.setZ(300)
+        render.setLight(headlight_path)
 
     def _configure_camera(self):
         camera.reparentTo(self._model)
