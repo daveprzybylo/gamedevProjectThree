@@ -47,7 +47,32 @@ class Player(DirectObject):
         self.accept("arrow_right-up", self._set_key, ["right", 0])
 
     def _setup_tasks(self):
-        pass
+        self._prev_move_time = 0
+        taskMgr.add(self._task_move, "player-task-move")
 
     def _set_key(self, key, value):
         self._keymap[key] = value
+
+    def _task_move(self, task):
+        et = task.time - self._prev_move_time
+        rotation_rate = 100
+        walk_rate = .1
+        # Get current values
+        rotation = self._model.getH()
+        pos_x = self._model.getX()
+        pos_y = self._model.getY()
+        # Rotate the player
+        rotation += self._keymap['left'] * rotation_rate * et
+        rotation -= self._keymap['right'] * rotation_rate * et
+        # Move the player
+        rotation_deg = deg2Rad(rotation)
+        dx = walk_rate * math.sin(angle)
+        dy = walk_rate * -math.cos(angle)
+        pos_x += self._keymap['forward'] * dx
+        pos_y += self._keymap['reverse'] * dy
+        # Save back to the model
+        self._model.setH(rotation)
+        self._model.setX(pos_x)
+        self._model.setY(pos_y)
+        self._prev_move_time = task.time
+        return Task.cont
