@@ -29,8 +29,8 @@ class World(DirectObject): #necessary to accept events
         taskMgr.add(self.move, "moveTask")
         self.prevtime = 0
         self.isMoving = False
-        self.eatSound = loader.loadSfx("something.wav")
-        self.music = loader.loadMusic("music.mp3")
+        #self.eatSound = loader.loadSfx("something.wav")
+        #self.music = loader.loadMusic("music.mp3")
         self.accept("escape", sys.exit) #message name, function to call, list of arguments
         #"mouse1" is the event when the left mouse button is clicked
         #other interval methods: loop(), pause(), resuem(), finish()
@@ -89,7 +89,7 @@ class World(DirectObject): #necessary to accept events
         self.headLightNP.setH(180)
         self.headLightNP.setZ(300)
         #Display the cone
-        self.headLight.showFrustum()
+        #self.headLight.showFrustum()
         render.setLight(self.headLightNP)
         
     def move(self, task):
