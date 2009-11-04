@@ -31,27 +31,7 @@ class World(DirectObject): #necessary to accept events
         self.accept("arrow_up-up", self.setKey, ["forward", 0])
         self.accept("arrow_left-up", self.setKey, ["left", 0]) 
         self.accept("arrow_right-up", self.setKey, ["right", 0])
-        self.accept("w", self.moveLightUp)
-        self.accept("s", self.moveLightDown)
-        self.accept("a", self.moveLightLeft)
-        self.accept("d", self.moveLightRight)
         self.accept("ate-smiley", self.test_eat)
-        
-    def moveLightUp(self):
-        self.headLightNP.setHpr(self.headLightNP.getH(),self.headLightNP.getP() + 1,0)
-    
-    def moveLightDown(self):
-        """docstring for moveLightDown"""
-        self.headLightNP.setHpr(self.headLightNP.getH(),self.headLightNP.getP() - 1,0)
-    
-    def moveLightLeft(self):
-        """docstring for moveLightDown"""
-        self.headLightNP.setHpr(self.headLightNP.getH()+1,self.headLightNP.getP(),0)
-    
-    def moveLightRight(self):
-        """docstring for moveLightDown"""
-        self.headLightNP.setHpr(self.headLightNP.getH()-1,self.headLightNP.getP(),0)
-    
 
     def setKey(self, key, value):
         self.keyMap[key] = value
