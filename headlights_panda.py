@@ -13,7 +13,7 @@ class World(DirectObject): #necessary to accept events
         base.disableMouse()
         camera.setPosHpr(0, -15, 7, 0, -15, 0)
         render.setShaderAuto()
-        self.keyMap = {"left":0, "right":0, "forward":0}
+        self.keyMap = {"left":0, "right":0, "forward":0, "reverse":0}
         self.loadModels()
         self.setupLights()
         self.setupCollisions()
@@ -32,6 +32,8 @@ class World(DirectObject): #necessary to accept events
         self.accept("arrow_up-up", self.setKey, ["forward", 0])
         self.accept("arrow_left-up", self.setKey, ["left", 0]) 
         self.accept("arrow_right-up", self.setKey, ["right", 0])
+        self.accept("arrow_down", self.setKey, ["reverse", 1])
+        self.accept("arrow_down-up", self.setKey, ["reverse", 0])
         self.accept("ate-smiley", self.test_eat)
 
     def setKey(self, key, value):
@@ -91,6 +93,12 @@ class World(DirectObject): #necessary to accept events
             self.panda.setH(self.panda.getH() - elapsed * 100)
         if self.keyMap["forward"]:
             dist = .1
+            angle = deg2Rad(self.panda.getH())
+            dx = dist * math.sin(angle)
+            dy = dist * -math.cos(angle)
+            self.panda.setPos(self.panda.getX() + dx, self.panda.getY() + dy, 0) 
+        if self.keyMap["reverse"]:
+            dist = -.1
             angle = deg2Rad(self.panda.getH())
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
