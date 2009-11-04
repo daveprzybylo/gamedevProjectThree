@@ -11,10 +11,19 @@ class World(DirectObject): #necessary to accept events
     def __init__(self):
         #turn off default mouse control, otherwise camera is not repositionable
         base.disableMouse()
-        camera.setPosHpr(0, -15, 7, 0, -15, 0)
+        #camera.setPosHpr(0, -15, 7, 0, -15, 0)
         render.setShaderAuto()
         self.keyMap = {"left":0, "right":0, "forward":0}
         self.loadModels()
+        camera.reparentTo(self.panda)
+        #Move camera Up
+        camera.setZ(1200)
+        #Move camera Back
+        camera.setY(1800)
+        #Turn camera 180 degrees
+        camera.setH(180)
+        #Tilt the camera down
+        camera.setP(-15)
         self.setupLights()
         self.setupCollisions()
         taskMgr.add(self.move, "moveTask")
@@ -84,7 +93,7 @@ class World(DirectObject): #necessary to accept events
     def move(self, task):
         """Compound interval for walking"""
         elapsed = task.time - self.prevtime
-        camera.lookAt(self.panda)
+        #camera.lookAt(self.panda)
         if self.keyMap["left"]:
             self.panda.setH(self.panda.getH() + elapsed * 100)
         if self.keyMap["right"]:
