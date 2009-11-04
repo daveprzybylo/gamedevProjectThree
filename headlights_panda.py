@@ -12,6 +12,7 @@ class World(DirectObject): #necessary to accept events
         #turn off default mouse control, otherwise camera is not repositionable
         base.disableMouse()
         camera.setPosHpr(0, -15, 7, 0, -15, 0)
+        render.setShaderAuto()
         self.keyMap = {"left":0, "right":0, "forward":0}
         self.loadModels()
         self.setupLights()
@@ -73,11 +74,11 @@ class World(DirectObject): #necessary to accept events
         
         self.headLight = Spotlight('headLight')
         self.headLight.setColor((1,1,1,1))
-        self.headLightNP = render.attachNewNode(self.headLight)
-        self.headLightNP.setPos(self.panda,0,0,0)
-        self.headLightNP.setHpr(self.panda.getH(),self.panda.getP(),self.panda.getR())
-        self.headLightNP.show()
-        #self.headLightNP.lookAt(self.panda)
+        self.headLightNP = self.panda.attachNewNode(self.headLight)
+        self.headLightNP.setH(180)
+        self.headLightNP.setZ(300)
+        #Display the cone
+        self.headLight.showFrustum()
         render.setLight(self.headLightNP)
         
     def move(self, task):
@@ -104,9 +105,6 @@ class World(DirectObject): #necessary to accept events
                 self.panda.pose("walk", 4)
                 self.isMoving = False
         self.prevtime = task.time
-        #self.headLightNP.setPos(self.panda.getX(),self.panda.getY(),self.panda.getZ()-40)
-        self.headLightNP.setPos(self.panda,0,0,20)
-        self.headLightNP.setH(self.panda.getH()-180)
         return Task.cont
     
     def setupCollisions(self):
