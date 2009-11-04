@@ -17,9 +17,9 @@ class World(DirectObject): #necessary to accept events
         self.loadModels()
         camera.reparentTo(self.panda)
         #Move camera Up
-        camera.setZ(1200)
+        camera.setZ(2000)
         #Move camera Back
-        camera.setY(1800)
+        camera.setY(3600)
         #Turn camera 180 degrees
         camera.setH(180)
         #Tilt the camera down
@@ -44,6 +44,9 @@ class World(DirectObject): #necessary to accept events
         self.accept("arrow_down", self.setKey, ["reverse", 1])
         self.accept("arrow_down-up", self.setKey, ["reverse", 0])
         self.accept("ate-smiley", self.test_eat)
+        #startPos = self.env.find("**/start_point").getPos()
+        #self.panda.setPos(startPos)
+        self.panda.setZ(100)
 
     def setKey(self, key, value):
         self.keyMap[key] = value
@@ -52,12 +55,12 @@ class World(DirectObject): #necessary to accept events
         """loads initial models into the world"""
         self.panda = Actor("panda-model", {"walk":"panda-walk4", "eat":"panda-eat"})
         self.panda.reparentTo(render)
-        self.panda.setScale(.005)
+        self.panda.setScale(.0005)
         self.panda.setH(180)
-        self.env = loader.loadModel("environment")
+        self.env = loader.loadModel("models/world")
         self.env.reparentTo(render)
         self.env.setScale(.25)
-        self.env.setPos(-8, 42, 0)
+        self.env.setPos(0,0,0)
         #load targets
         self.targets = []
         for i in range(5):
@@ -94,6 +97,8 @@ class World(DirectObject): #necessary to accept events
         
     def move(self, task):
         """Compound interval for walking"""
+        self.cTrav.traverse(render)
+        startpos = self.panda.getPos()
         elapsed = task.time - self.prevtime
         #camera.lookAt(self.panda)
         if self.keyMap["left"]:
@@ -122,6 +127,17 @@ class World(DirectObject): #necessary to accept events
                 self.panda.pose("walk", 4)
                 self.isMoving = False
         self.prevtime = task.time
+        
+        entries = []
+        for i in range(self.ralphGroundHandler.getNumEntries()):
+            entry = self.ralphGroundHandler.getEntry(i)
+            entries.append(entry)
+        entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
+                                     x.getSurfacePoint(render).getZ()))
+        if (len(entries)>0) and (entries[0].getIntoNode().getName() == "terrain"):
+            self.panda.setZ(entries[0].getSurfacePoint(render).getZ())
+        else:
+            self.panda.setPos(startpos)
         return Task.cont
     
     def setupCollisions(self):
@@ -146,6 +162,19 @@ class World(DirectObject): #necessary to accept events
             cNode.addSolid(cSphere)
             cNodePath = target.attachNewNode(cNode)
             #cNodePath.show()
+        
+        self.cTrav = CollisionTraverser()
+        self.ralphGroundRay = CollisionRay()
+        self.ralphGroundRay.setOrigin(0,0,1000)
+        self.ralphGroundRay.setDirection(0,0,-1)
+        self.ralphGroundCol = CollisionNode('ralphRay')
+        self.ralphGroundCol.addSolid(self.ralphGroundRay)
+        self.ralphGroundCol.setFromCollideMask(BitMask32.bit(0))
+        self.ralphGroundCol.setIntoCollideMask(BitMask32.allOff())
+        self.ralphGroundColNp = self.panda.attachNewNode(self.ralphGroundCol)
+        #self.ralphGroundColNp.show()
+        self.ralphGroundHandler = CollisionHandlerQueue()
+        self.cTrav.addCollider(self.ralphGroundColNp, self.ralphGroundHandler)
         
     def eat(self, cEntry):
         """handles panda eating a smiley"""
