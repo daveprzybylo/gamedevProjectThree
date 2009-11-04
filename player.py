@@ -17,6 +17,7 @@ class Player(DirectObject):
        self._load_lights()
        self._configure_camera()
        self._setup_actions()
+       self._setup_tasks()
 
     def _load_models(self):
         self._model = Actor("player")
@@ -44,6 +45,9 @@ class Player(DirectObject):
         self.accept("arrow_left-up", self._set_key, ["left", 0])
         self.accept("arrow_right", self._set_key, ["right", 1])
         self.accept("arrow_right-up", self._set_key, ["right", 0])
+
+    def _setup_tasks(self):
+        pass
 
     def _set_key(self, key, value):
         self._keymap[key] = value
