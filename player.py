@@ -59,17 +59,29 @@ class Player(DirectObject):
 
     def _setup_collisions(self):
         cTrav = CollisionTraverser()
+        self.groundHandler = CollisionHandlerQueue()
+        # Nose collision
         groundRay = CollisionRay()
-        groundRay.setOrigin(0,-250,1000)
-        groundRay.setDirection(0,0,-1)
+        groundRay.setOrigin(0, 250, 1000)
+        groundRay.setDirection(0, 0, -1)
         groundCol = CollisionNode('groundRay')
         groundCol.addSolid(groundRay)
         groundCol.setFromCollideMask(BitMask32.bit(0))
         groundCol.setIntoCollideMask(BitMask32.allOff())
         groundColNp = self._model.attachNewNode(groundCol)
         #groundColNp.show()
-        self.groundHandler = CollisionHandlerQueue()
         cTrav.addCollider(groundColNp, self.groundHandler)
+        # Rear collision
+        groundRayRear = CollisionRay()
+        groundRayRear.setOrigin(0, -250, 1000)
+        groundRayRear.setDirection(0, 0, -1)
+        groundColRear = CollisionNode('groundRayRear')
+        groundColRear.addSolid(groundRayRear)
+        groundColRear.setFromCollideMask(BitMask32.bit(0))
+        groundColRear.setIntoCollideMask(BitMask32.allOff())
+        groundColNpRear = self._model.attachNewNode(groundColRear)
+        #groundColNp.show()
+        cTrav.addCollider(groundColNpRear, self.groundHandler)
 
     def _set_key(self, key, value):
         self._keymap[key] = value
