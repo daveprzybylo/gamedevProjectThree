@@ -31,7 +31,7 @@ class World(DirectObject): #necessary to accept events
         self.isMoving = False
         #self.eatSound = loader.loadSfx("something.wav")
         #self.music = loader.loadMusic("music.mp3")
-        self.accept("escape", sys.exit) #message name, function to call, list of arguments
+        #self.accept("escape", sys.exit) #message name, function to call, list of arguments
         #"mouse1" is the event when the left mouse button is clicked
         #other interval methods: loop(), pause(), resuem(), finish()
         #start() can take arguments: start(starttime, endtime, playrate)
@@ -88,11 +88,17 @@ class World(DirectObject): #necessary to accept events
         
         self.headLight = Spotlight('headLight')
         self.headLight.setColor((1,1,1,1))
+        self.headLight.setLens(PerspectiveLens()) 
+        self.headLight.getLens().setFov(45,15)
+        self.headLight.setAttenuation(Vec3(1.0,0.0,0.0)) 
+        self.headLight.setExponent(.5)
         self.headLightNP = self.panda.attachNewNode(self.headLight)
         self.headLightNP.setH(180)
-        self.headLightNP.setZ(300)
+        self.headLightNP.setZ(100)
+        self.headLightNP.setP(-20)
+
         #Display the cone
-        #self.headLight.showFrustum()
+        self.headLight.showFrustum()
         render.setLight(self.headLightNP)
         
     def move(self, task):
@@ -138,6 +144,17 @@ class World(DirectObject): #necessary to accept events
             self.panda.setZ(entries[0].getSurfacePoint(render).getZ())
         else:
             self.panda.setPos(startpos)
+        
+        entries=[]
+        for i in range(self.ralphGroundHandlerRear.getNumEntries()):
+            entry = self.ralphGroundHandlerRear.getEntry(i)
+            entries.append(entry)
+        entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
+                                     x.getSurfacePoint(render).getZ()))
+        if (len(entries)>0) and (entries[0].getIntoNode().getName() == "terrain"):
+            self.panda.setZ(entries[0].getSurfacePoint(render).getZ())
+        else:
+            self.panda.setPos(startpos)
         return Task.cont
     
     def setupCollisions(self):
@@ -148,24 +165,18 @@ class World(DirectObject): #necessary to accept events
         #makes a collision traverser and sets it to the default
         base.cTrav = CollisionTraverser()
         
-        cSphere = CollisionSphere((0,0,0), 500) #panda is scaled way down
-        cNode = CollisionNode("panda")
-        cNode.addSolid(cSphere)
-        cNode.setIntoCollideMask(BitMask32.allOff())
-        cNodePath = self.panda.attachNewNode(cNode)
+        #cSphere = CollisionSphere((0,0,0), 500) #panda is scaled way down
+        #cNode = CollisionNode("panda")
+        #cNode.addSolid(cSphere)
+        #cNode.setIntoCollideMask(BitMask32.allOff())
+        #cNodePath = self.panda.attachNewNode(cNode)
         #cNodePath.show()
-        base.cTrav.addCollider(cNodePath, self.cHandler)
-        
-        for target in self.targets:
-            cSphere = CollisionSphere((0,0,0), 2)
-            cNode = CollisionNode("smiley")
-            cNode.addSolid(cSphere)
-            cNodePath = target.attachNewNode(cNode)
+        #base.cTrav.addCollider(cNodePath, self.cHandler)
             #cNodePath.show()
         
         self.cTrav = CollisionTraverser()
         self.ralphGroundRay = CollisionRay()
-        self.ralphGroundRay.setOrigin(0,0,1000)
+        self.ralphGroundRay.setOrigin(0,-250,1000)
         self.ralphGroundRay.setDirection(0,0,-1)
         self.ralphGroundCol = CollisionNode('ralphRay')
         self.ralphGroundCol.addSolid(self.ralphGroundRay)
@@ -175,6 +186,18 @@ class World(DirectObject): #necessary to accept events
         #self.ralphGroundColNp.show()
         self.ralphGroundHandler = CollisionHandlerQueue()
         self.cTrav.addCollider(self.ralphGroundColNp, self.ralphGroundHandler)
+        
+        self.ralphGroundRayRear = CollisionRay()
+        self.ralphGroundRayRear.setOrigin(0,250,1000)
+        self.ralphGroundRayRear.setDirection(0,0,-1)
+        self.ralphGroundColRear = CollisionNode('ralphRay')
+        self.ralphGroundColRear.addSolid(self.ralphGroundRayRear)
+        self.ralphGroundColRear.setFromCollideMask(BitMask32.bit(0))
+        self.ralphGroundColRear.setIntoCollideMask(BitMask32.allOff())
+        self.ralphGroundColNpRear = self.panda.attachNewNode(self.ralphGroundColRear)
+        #self.ralphGroundColNp.show()
+        self.ralphGroundHandlerRear = CollisionHandlerQueue()
+        self.cTrav.addCollider(self.ralphGroundColNpRear, self.ralphGroundHandlerRear)
         
     def eat(self, cEntry):
         """handles panda eating a smiley"""
