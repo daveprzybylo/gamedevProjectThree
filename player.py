@@ -5,6 +5,8 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
+import math
+
 
 class Player(DirectObject):
     def __init__(self):
