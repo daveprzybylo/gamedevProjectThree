@@ -41,7 +41,7 @@ class Player(DirectObject):
 
     def _configure_camera(self):
         camera.reparentTo(self._model)
-        camera.setPos(0, -20, 5)
+        camera.setPos(0, -30, 10)
         camera.setHpr(0, -15, 0)
 
     def _setup_actions(self):
