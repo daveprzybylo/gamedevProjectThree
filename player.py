@@ -29,8 +29,13 @@ class Player(DirectObject):
         self._headlight = Spotlight('player-headlight')
         self._headlight.setColor((1,1,1,1))
         #self._headlight.showFrustum()
+        self._headlight.setLens(PerspectiveLens())
+        self._headlight.getLens().setFov(45,15)
+        self._headlight.setAttenuation(Vec3(1,0,0))
+        self._headlight.setExponent(.5)
         headlight_path = self._model.attachNewNode(self._headlight)
-        headlight_path.setZ(300)
+        headlight_path.setPos(0, 0, 100)
+        headlight_path.setHpr(0, -20, 0)
         render.setLight(headlight_path)
 
     def _configure_camera(self):
