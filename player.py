@@ -29,7 +29,7 @@ class Player(DirectObject):
 
     def _load_lights(self):
         headlight = Spotlight('player-headlight')
-        headlight.setColor((1,1,1,1))
+        headlight.setColor((1, 1, 1, 1))
         headlight.setLens(PerspectiveLens())
         headlight.getLens().setFov(30, 15)
         headlight.setAttenuation(Vec3(1, 0, 0))
