@@ -101,9 +101,9 @@ class Player(DirectObject):
         rotation += self._keymap['left'] * rotation_rate * et
         rotation -= self._keymap['right'] * rotation_rate * et
         # Move the player
-        rotation_deg = deg2Rad(rotation)
-        dx = walk_rate * math.sin(angle)
-        dy = walk_rate * -math.cos(angle)
+        rotation_rad = deg2Rad(rotation)
+        dx = walk_rate * -math.sin(rotation_rad)
+        dy = walk_rate * math.cos(rotation_rad)
         pos_x += self._keymap['forward'] * dx
         pos_y += self._keymap['reverse'] * dy
         # Save back to the model
