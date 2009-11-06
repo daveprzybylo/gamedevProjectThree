@@ -90,7 +90,7 @@ class Player(DirectObject):
     def _task_move(self, task):
         et = task.time - self._prev_move_time
         rotation_rate = 100
-        walk_rate = 1
+        walk_rate = 30
         # Get current values
         rotation = self._model.getH()
         pos_x = self._model.getX()
@@ -101,8 +101,8 @@ class Player(DirectObject):
         rotation -= self._keymap['right'] * rotation_rate * et
         # Move the player
         rotation_rad = deg2Rad(rotation)
-        dx = walk_rate * -math.sin(rotation_rad)
-        dy = walk_rate * math.cos(rotation_rad)
+        dx = et * walk_rate * -math.sin(rotation_rad)
+        dy = et * walk_rate * math.cos(rotation_rad)
         pos_x += self._keymap['forward'] * dx
         pos_y += self._keymap['forward'] * dy
         pos_x -= self._keymap['reverse'] * dx
