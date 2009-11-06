@@ -61,29 +61,29 @@ class Player(DirectObject):
 
     def _setup_collisions(self):
         coll_trav = CollisionTraverser()
-        self._groundHandler = CollisionHandlerQueue()
+        self._gnd_handler = CollisionHandlerQueue()
         # Nose collision
-        groundRay = CollisionRay()
-        groundRay.setOrigin(0, 250, 1000)
-        groundRay.setDirection(0, 0, -1)
-        groundCol = CollisionNode('groundRay')
-        groundCol.addSolid(groundRay)
-        groundCol.setFromCollideMask(BitMask32.bit(0))
-        groundCol.setIntoCollideMask(BitMask32.allOff())
-        groundColNp = self._model.attachNewNode(groundCol)
-        #groundColNp.show()
-        coll_trav.addCollider(groundColNp, self._groundHandler)
-        # Rear collision
-        groundRayRear = CollisionRay()
-        groundRayRear.setOrigin(0, -250, 1000)
-        groundRayRear.setDirection(0, 0, -1)
-        groundColRear = CollisionNode('groundRayRear')
-        groundColRear.addSolid(groundRayRear)
-        groundColRear.setFromCollideMask(BitMask32.bit(0))
-        groundColRear.setIntoCollideMask(BitMask32.allOff())
-        groundColNpRear = self._model.attachNewNode(groundColRear)
-        #groundColNp.show()
-        coll_trav.addCollider(groundColNpRear, self._groundHandler)
+        gnd_ray = CollisionRay()
+        gnd_ray.setOrigin(0, 250, 1000)
+        gnd_ray.setDirection(0, 0, -1)
+        gnd_coll = CollisionNode('collision-ground-front')
+        gnd_coll.addSolid(gnd_ray)
+        gnd_coll.setFromCollideMask(BitMask32.bit(0))
+        gnd_coll.setIntoCollideMask(BitMask32.allOff())
+        gnd_coll_path = self._model.attachNewNode(gnd_coll)
+        #gnd_coll_path.show()
+        coll_trav.addCollider(gnd_coll_path, self._gnd_handler)
+        # _rear collision
+        gnd_ray_rear = CollisionRay()
+        gnd_ray_rear.setOrigin(0, -200, 1000)
+        gnd_ray_rear.setDirection(0, 0, -1)
+        gnd_coll_rear = CollisionNode('collision-ground-back')
+        gnd_coll_rear.addSolid(gnd_ray_rear)
+        gnd_coll_rear.setFromCollideMask(BitMask32.bit(0))
+        gnd_coll_rear.setIntoCollideMask(BitMask32.allOff())
+        gnd_coll_path_rear = self._model.attachNewNode(gnd_coll_rear)
+        #gnd_coll_path.show()
+        coll_trav.addCollider(gnd_coll_path_rear, self._gnd_handler)
 
     def _set_key(self, key, value):
         self._keymap[key] = value
@@ -116,8 +116,8 @@ class Player(DirectObject):
         self._prev_move_time = task.time
 
         entries = []
-        for i in range(self._groundHandler.getNumEntries()):
-            entries.append(self._groundHandler.getEntry(i))
+        for i in range(self._gnd_handler.getNumEntries()):
+            entries.append(self._gnd_handler.getEntry(i))
         entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                      x.getSurfacePoint(render).getZ()))
         if entries and (entries[0].getIntoNode().getName() == "terrain"):
