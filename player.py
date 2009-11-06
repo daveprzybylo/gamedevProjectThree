@@ -60,7 +60,7 @@ class Player(DirectObject):
 
     def _setup_collisions(self):
         cTrav = CollisionTraverser()
-        self.groundHandler = CollisionHandlerQueue()
+        self._groundHandler = CollisionHandlerQueue()
         # Nose collision
         groundRay = CollisionRay()
         groundRay.setOrigin(0, 250, 1000)
@@ -71,7 +71,7 @@ class Player(DirectObject):
         groundCol.setIntoCollideMask(BitMask32.allOff())
         groundColNp = self._model.attachNewNode(groundCol)
         #groundColNp.show()
-        cTrav.addCollider(groundColNp, self.groundHandler)
+        cTrav.addCollider(groundColNp, self._groundHandler)
         # Rear collision
         groundRayRear = CollisionRay()
         groundRayRear.setOrigin(0, -250, 1000)
@@ -82,7 +82,7 @@ class Player(DirectObject):
         groundColRear.setIntoCollideMask(BitMask32.allOff())
         groundColNpRear = self._model.attachNewNode(groundColRear)
         #groundColNp.show()
-        cTrav.addCollider(groundColNpRear, self.groundHandler)
+        cTrav.addCollider(groundColNpRear, self._groundHandler)
 
     def _set_key(self, key, value):
         self._keymap[key] = value
@@ -114,9 +114,9 @@ class Player(DirectObject):
         self._prev_move_time = task.time
 
         entries = []
-        for i in range(self.groundHandler.getNumEntries()):
-            entries.append(self.groundHandler.getEntry(i))
-        entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
+        for i in range(self._groundHandler.getNumEntries()):
+            entries.append(self._groundHandler.getEntry(i))
+        entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                      x.getSurfacePoint(render).getZ()))
         if entries and (entries[0].getIntoNode().getName() == "terrain"):
             self._model.setZ(entries[0].getSurfacePoint(render).getZ())
