@@ -5,6 +5,7 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
+
 class Player(DirectObject):
     def __init__(self):
        self._keymap = {
@@ -18,6 +19,7 @@ class Player(DirectObject):
        self._configure_camera()
        self._setup_actions()
        self._setup_tasks()
+       self._setup_collisions()
 
     def _load_models(self):
         self._model = Actor("player")
@@ -50,6 +52,20 @@ class Player(DirectObject):
         self._prev_move_time = 0
         taskMgr.add(self._task_move, "player-task-move")
 
+    def _setup_collisions(self):
+        cTrav = CollisionTraverser()
+        groundRay = CollisionRay()
+        groundRay.setOrigin(0,-250,1000)
+        groundRay.setDirection(0,0,-1)
+        groundCol = CollisionNode('groundRay')
+        groundCol.addSolid(groundRay)
+        groundCol.setFromCollideMask(BitMask32.bit(0))
+        groundCol.setIntoCollideMask(BitMask32.allOff())
+        groundColNp = self._model.attachNewNode(groundCol)
+        #groundColNp.show()
+        self.groundHandler = CollisionHandlerQueue()
+        cTrav.addCollider(groundColNp, self.groundHandler)
+
     def _set_key(self, key, value):
         self._keymap[key] = value
 
@@ -61,6 +77,7 @@ class Player(DirectObject):
         rotation = self._model.getH()
         pos_x = self._model.getX()
         pos_y = self._model.getY()
+        pos = self._model.getPos()
         # Rotate the player
         rotation += self._keymap['left'] * rotation_rate * et
         rotation -= self._keymap['right'] * rotation_rate * et
@@ -75,4 +92,14 @@ class Player(DirectObject):
         self._model.setX(pos_x)
         self._model.setY(pos_y)
         self._prev_move_time = task.time
+
+        entries = []
+        for i in range(self.groundHandler.getNumEntries()):
+            entries.append(self.groundHandler.getEntry(i))
+        entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
+                                     x.getSurfacePoint(render).getZ()))
+        if entries and (entries[0].getIntoNode().getName() == "terrain"):
+            self._model.setZ(entries[0].getSurfacePoint(render).getZ())
+        else:
+            self._model.setPos(pos)
         return Task.cont
