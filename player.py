@@ -11,10 +11,10 @@ import math
 class Player(DirectObject):
     def __init__(self):
        self._keymap = {
-               'forward'   : 0,
-               'backwards' : 0,
-               'right'     : 0,
-               'left'      : 0,
+               'forward' : 0,
+               'reverse' : 0,
+               'right'   : 0,
+               'left'    : 0,
        }
        self._load_models()
        self._load_lights()
