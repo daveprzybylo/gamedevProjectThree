@@ -26,8 +26,7 @@ class Player(DirectObject):
     def _load_models(self):
         self._model = Actor("player")
         self._model.reparentTo(render)
-        self._model.setX(0)
-        self._model.setY(0)
+        self._model.setPos(0, 0, 10)
         self._model.setScale(.001)
 
     def _load_lights(self):
