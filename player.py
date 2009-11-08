@@ -73,7 +73,7 @@ class Player(DirectObject):
         self._gnd_coll.setFromCollideMask(BitMask32.bit(0))
         self._gnd_coll.setIntoCollideMask(BitMask32.allOff())
         self._gnd_coll_path = self._model.attachNewNode(self._gnd_coll)
-        self._gnd_coll_path.show()
+        #self._gnd_coll_path.show()
         self._coll_trav.addCollider(self._gnd_coll_path, self._gnd_handler)
         # Rear collision
         self._gnd_ray_rear = CollisionRay()
@@ -84,7 +84,7 @@ class Player(DirectObject):
         self._gnd_coll_rear.setFromCollideMask(BitMask32.bit(0))
         self._gnd_coll_rear.setIntoCollideMask(BitMask32.allOff())
         self._gnd_coll_path_rear = self._model.attachNewNode(self._gnd_coll_rear)
-        #self._gnd_coll_path.show()
+        #self._gnd_coll_path_rear.show()
         #self._coll_trav.addCollider(self._gnd_coll_path_rear, self._gnd_handler)
         # Camera collision
         self._gnd_ray_cam = CollisionRay()
