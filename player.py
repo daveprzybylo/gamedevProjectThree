@@ -16,6 +16,7 @@ class Player(DirectObject):
                'right'   : 0,
                'left'    : 0,
        }
+       self._camera_pos = (0, -50, 20)
        self._load_models()
        self._load_lights()
        self._configure_camera()
@@ -43,7 +44,7 @@ class Player(DirectObject):
 
     def _configure_camera(self):
         camera.reparentTo(self._model)
-        camera.setPos(0, -50, 20)
+        camera.setPos(self._camera_pos[0], self._camera_pos[1], self._camera_pos[2])
         camera.lookAt(self._model)
 
     def _setup_actions(self):
