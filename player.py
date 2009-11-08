@@ -26,6 +26,8 @@ class Player(DirectObject):
     def _load_models(self):
         self._model = Actor("player")
         self._model.reparentTo(render)
+        self._model.setX(0)
+        self._model.setY(0)
         self._model.setScale(.001)
 
     def _load_lights(self):
@@ -43,7 +45,7 @@ class Player(DirectObject):
     def _configure_camera(self):
         camera.reparentTo(self._model)
         camera.setPos(0, -30, 10)
-        camera.setHpr(0, -15, 0)
+        camera.lookAt(self._model)
 
     def _setup_actions(self):
         self.accept("arrow_up", self._set_key, ["forward", 1])
