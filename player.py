@@ -104,7 +104,7 @@ class Player(DirectObject):
     def _task_move(self, task):
         et = task.time - self._prev_move_time
         rotation_rate = 100
-        walk_rate = 30
+        walk_rate = 10
         # Get current values
         rotation = self._model.getH()
         pos_x = self._model.getX()
