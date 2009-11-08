@@ -88,6 +88,7 @@ class Player(DirectObject):
         #self._gnd_coll_path_rear.show()
         self._coll_trav.addCollider(self._gnd_coll_path_rear, self._gnd_handler)
         # Camera collision
+        self._gnd_handler_cam = CollisionHandlerQueue()
         self._gnd_ray_cam = CollisionRay()
         self._gnd_ray_cam.setOrigin(self._camera_pos[0], self._camera_pos[1], 20)
         self._gnd_ray_cam.setDirection(0, 0, -1)
@@ -97,7 +98,7 @@ class Player(DirectObject):
         self._gnd_coll_cam.setIntoCollideMask(BitMask32.allOff())
         self._gnd_coll_path_cam = self._model.attachNewNode(self._gnd_coll_cam)
         #self._gnd_coll_path_cam.show()
-        self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler)
+        self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler_cam)
 
     def _set_key(self, key, value):
         self._keymap[key] = value
@@ -156,10 +157,13 @@ class Player(DirectObject):
         entries = []
         for i in range(self._gnd_handler.getNumEntries()):
             entries.append(self._gnd_handler.getEntry(i))
+        entries_all = entries[:]
+        for i in range(self._gnd_handler_cam.getNumEntries()):
+            entries_all.append(self._gnd_handler_cam.getEntry(i))
         entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                       x.getSurfacePoint(render).getZ()))
-        if entries:
-            if entries[0].getIntoNode().getName() == "terrain":
+        if entries_all:
+            if entries and entries[0].getIntoNode().getName() == "terrain":
                 self._model.setZ(entries[0].getSurfacePoint(render).getZ())
             else:
                 self._model.setPos(pos)
