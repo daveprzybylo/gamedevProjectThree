@@ -127,6 +127,16 @@ class Player(DirectObject):
         self._model.setX(pos_x)
         self._model.setY(pos_y)
         self._prev_move_time = task.time
+        
+        if self._keymap['left']:
+            camera.setH(-15)
+            camera.setX(-15)
+        elif self._keymap['right']:
+            camera.setH(10)
+            camera.setX(10)
+        else:
+            camera.setH(0)
+            camera.setX(0)
 
         self._coll_trav.traverse(render)
 
