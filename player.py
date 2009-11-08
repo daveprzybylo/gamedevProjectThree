@@ -17,6 +17,7 @@ class Player(DirectObject):
                'left'    : 0,
        }
        self._camera_pos = (0, -50, 20)
+       self._dir = 0
        self._load_models()
        self._load_lights()
        self._configure_camera()
@@ -127,20 +128,28 @@ class Player(DirectObject):
         self._model.setX(pos_x)
         self._model.setY(pos_y)
         self._prev_move_time = task.time
-        
+
+        ival = None
         if self._keymap['left']:
-            ival = camera.posHprInterval(.5,
-                    (-10, camera.getY(), camera.getZ()),
-                    (-10, camera.getP(), camera.getR()))
+            if not self._dir == -1:
+                self._dir = -1
+                ival = camera.posHprInterval(.1,
+                        (-10, camera.getY(), camera.getZ()),
+                        (-10, camera.getP(), camera.getR()))
         elif self._keymap['right']:
-            ival = camera.posHprInterval(.5,
-                    (10, camera.getY(), camera.getZ()),
-                    (10, camera.getP(), camera.getR()))
+            if not self._dir == 1:
+                self._dir = 1
+                ival = camera.posHprInterval(.1,
+                        (10, camera.getY(), camera.getZ()),
+                        (10, camera.getP(), camera.getR()))
         else:
-            ival = camera.posHprInterval(.25,
-                    (0, camera.getY(), camera.getZ()),
-                    (0, camera.getP(), camera.getR()))
-        ival.start()
+            if not self._dir == 0:
+                self._dir = 0
+                ival = camera.posHprInterval(.05,
+                        (0, camera.getY(), camera.getZ()),
+                        (0, camera.getP(), camera.getR()))
+        if ival:
+            ival.start()
 
         self._coll_trav.traverse(render)
 
