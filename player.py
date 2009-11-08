@@ -129,14 +129,18 @@ class Player(DirectObject):
         self._prev_move_time = task.time
         
         if self._keymap['left']:
-            camera.setH(-15)
-            camera.setX(-15)
+            ival = camera.posHprInterval(.5,
+                    (-10, camera.getY(), camera.getZ()),
+                    (-10, camera.getP(), camera.getR()))
         elif self._keymap['right']:
-            camera.setH(10)
-            camera.setX(10)
+            ival = camera.posHprInterval(.5,
+                    (10, camera.getY(), camera.getZ()),
+                    (10, camera.getP(), camera.getR()))
         else:
-            camera.setH(0)
-            camera.setX(0)
+            ival = camera.posHprInterval(.25,
+                    (0, camera.getY(), camera.getZ()),
+                    (0, camera.getP(), camera.getR()))
+        ival.start()
 
         self._coll_trav.traverse(render)
 
