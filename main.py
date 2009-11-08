@@ -23,6 +23,7 @@ class World(DirectObject):
         self._setup_lights()
         #self.music = loader.loadMusic("music.mp3")
         self.accept("escape", sys.exit)
+        self.accept("enter", startGame)
         
 
     def _setup_models(self):
@@ -49,6 +50,7 @@ if __name__ == '__main__':
     b = DirectButton(text="Start Game", clickSound = None, command=startGame, text_fg=(1,1,1,1), scale=.15, pos = (0,0,-.5), relief=None)
     b.setTransparency(1)
     c = OnscreenImage(parent=render2d, image="background.png")
+    
     
     w= World()
     run()
