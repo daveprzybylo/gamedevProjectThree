@@ -32,16 +32,16 @@ class Player(DirectObject):
         self._model.setScale(.1)
 
     def _load_lights(self):
-        headlight = Spotlight('player-headlight')
-        headlight.setColor((1, 1, 1, 1))
-        headlight.setLens(PerspectiveLens())
-        headlight.getLens().setFov(30, 15)
-        headlight.setAttenuation(Vec3(1, 0, 0))
-        headlight.setExponent(.5)
-        headlight_path = self._model.attachNewNode(headlight)
-        headlight_path.setPos(0, 0, 0)
-        headlight_path.setHpr(0, 0, 0)
-        render.setLight(headlight_path)
+        self._headlight = Spotlight('player-headlight')
+        self._headlight.setColor((1, 1, 1, 1))
+        self._headlight.setLens(PerspectiveLens())
+        self._headlight.getLens().setFov(30, 15)
+        self._headlight.setAttenuation(Vec3(1, 0, 0))
+        self._headlight.setExponent(.5)
+        self._headlight_path = self._model.attachNewNode(self._headlight)
+        self._headlight_path.setPos(0, 0, 0)
+        self._headlight_path.setHpr(0, 0, 0)
+        render.setLight(self._headlight_path)
 
     def _configure_camera(self):
         camera.reparentTo(self._model)
