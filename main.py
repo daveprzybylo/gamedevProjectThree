@@ -7,7 +7,7 @@ from direct.task import Task
 
 import player
 
-import sys
+import sys, os
 
 
 class World(DirectObject):
@@ -21,7 +21,7 @@ class World(DirectObject):
 
     def _setup_models(self):
         self.player = player.Player()
-        self.env = loader.loadModel("models/world")
+        self.env = loader.loadModel(os.path.join('models','world'))
         self.env.reparentTo(render)
         self.env.setPos(0, 0, 0)
 
