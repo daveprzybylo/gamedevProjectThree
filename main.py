@@ -1,14 +1,19 @@
 import direct.directbase.DirectStart
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
+from direct.gui.OnscreenText import OnscreenText
+from direct.gui.OnscreenImage import OnscreenImage
+from pandac.PandaModules import * 
+from direct.gui.DirectGui import *
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
 import player
-
+import menu
 import sys
 
+gameStart=False
 
 class World(DirectObject):
     def __init__(self):
@@ -18,6 +23,7 @@ class World(DirectObject):
         self._setup_lights()
         #self.music = loader.loadMusic("music.mp3")
         self.accept("escape", sys.exit)
+        
 
     def _setup_models(self):
         self.player = player.Player()
@@ -31,7 +37,20 @@ class World(DirectObject):
         ambient_path = render.attachNewNode(ambient)
         render.setLight(ambient_path)
 
+def startGame():
+    b.destroy()
+    c.destroy()
+    textObject.destroy()
 
 if __name__ == '__main__':
-    w = World()
+    bk_text = "Game Menu"
+    textObject = OnscreenText(text = bk_text,  pos = (0,0,.5), 
+                              scale = 0.2,fg=(1,1,1,1),align=TextNode.ACenter,mayChange=1)
+    b = DirectButton(text="Start Game", clickSound = None, command=startGame, text_fg=(1,1,1,1), scale=.15, pos = (0,0,-.5), relief=None)
+    b.setTransparency(1)
+    c = OnscreenImage(parent=render2d, image="background.png")
+    
+    w= World()
     run()
+    
+    
