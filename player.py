@@ -135,9 +135,9 @@ class Player(DirectObject):
             entries.append(self._gnd_handler.getEntry(i))
         entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                      x.getSurfacePoint(render).getZ()))
-        if entries and (entries[0].getIntoNode().getName() == "terrain"):
-            self._model.setZ(entries[0].getSurfacePoint(render).getZ())
-        else:
-            if entries:
+        if entries:
+            if entries[0].getIntoNode().getName() == "terrain":
+                self._model.setZ(entries[0].getSurfacePoint(render).getZ())
+            else:
                 self._model.setPos(pos)
         return Task.cont
