@@ -107,6 +107,8 @@ class Player(DirectObject):
         et = task.time - self._prev_move_time
         rotation_rate = 100
         walk_rate = 10
+        cam_rate = .1
+        cam_turn = 10
         # Get current values
         rotation = self._model.getH()
         pos_x = self._model.getX()
@@ -134,19 +136,19 @@ class Player(DirectObject):
         if self._keymap['left']:
             if not self._dir == -1:
                 self._dir = -1
-                ival = camera.posHprInterval(.1,
-                        (-10, camera.getY(), camera.getZ()),
-                        (-10, camera.getP(), camera.getR()))
+                ival = camera.posHprInterval(cam_rate,
+                        (-cam_turn, camera.getY(), camera.getZ()),
+                        (-cam_turn, camera.getP(), camera.getR()))
         elif self._keymap['right']:
             if not self._dir == 1:
                 self._dir = 1
-                ival = camera.posHprInterval(.1,
-                        (10, camera.getY(), camera.getZ()),
-                        (10, camera.getP(), camera.getR()))
+                ival = camera.posHprInterval(cam_rate,
+                        (cam_turn, camera.getY(), camera.getZ()),
+                        (cam_turn, camera.getP(), camera.getR()))
         else:
             if not self._dir == 0:
                 self._dir = 0
-                ival = camera.posHprInterval(.05,
+                ival = camera.posHprInterval(cam_rate / 2,
                         (0, camera.getY(), camera.getZ()),
                         (0, camera.getP(), camera.getR()))
         if ival:
