@@ -86,6 +86,17 @@ class Player(DirectObject):
         self._gnd_coll_path_rear = self._model.attachNewNode(self._gnd_coll_rear)
         #self._gnd_coll_path.show()
         #self._coll_trav.addCollider(self._gnd_coll_path_rear, self._gnd_handler)
+        # Camera collision
+        self._gnd_ray_cam = CollisionRay()
+        self._gnd_ray_cam.setOrigin(self._camera_pos[0], self._camera_pos[1], 20)
+        self._gnd_ray_cam.setDirection(0, 0, -1)
+        self._gnd_coll_cam = CollisionNode('collision-ground-cam')
+        self._gnd_coll_cam.addSolid(self._gnd_ray_cam)
+        self._gnd_coll_cam.setFromCollideMask(BitMask32.bit(0))
+        self._gnd_coll_cam.setIntoCollideMask(BitMask32.allOff())
+        self._gnd_coll_path_cam = self._model.attachNewNode(self._gnd_coll_cam)
+        #self._gnd_coll_path_cam.show()
+        self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler)
 
     def _set_key(self, key, value):
         self._keymap[key] = value
