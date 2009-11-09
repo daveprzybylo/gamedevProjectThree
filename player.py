@@ -89,18 +89,18 @@ class Player(DirectObject):
         self._gnd_coll_path_front = self._model.attachNewNode(self._gnd_coll_front)
         #self._gnd_coll_path_front.show()
         self._coll_trav.addCollider(self._gnd_coll_path_front, self._gnd_handler_front)
-        # Rear collision
-        self._gnd_handler_rear = CollisionHandlerQueue()
-        self._gnd_ray_rear = CollisionRay()
-        self._gnd_ray_rear.setOrigin(0, -self._coll_dist, 20)
-        self._gnd_ray_rear.setDirection(0, 0, -1)
-        self._gnd_coll_rear = CollisionNode('collision-ground-back')
-        self._gnd_coll_rear.addSolid(self._gnd_ray_rear)
-        self._gnd_coll_rear.setFromCollideMask(BitMask32.bit(0))
-        self._gnd_coll_rear.setIntoCollideMask(BitMask32.allOff())
-        self._gnd_coll_path_rear = self._model.attachNewNode(self._gnd_coll_rear)
-        #self._gnd_coll_path_rear.show()
-        self._coll_trav.addCollider(self._gnd_coll_path_rear, self._gnd_handler_rear)
+        # Back collision
+        self._gnd_handler_back = CollisionHandlerQueue()
+        self._gnd_ray_back = CollisionRay()
+        self._gnd_ray_back.setOrigin(0, -self._coll_dist, 20)
+        self._gnd_ray_back.setDirection(0, 0, -1)
+        self._gnd_coll_back = CollisionNode('collision-ground-back')
+        self._gnd_coll_back.addSolid(self._gnd_ray_back)
+        self._gnd_coll_back.setFromCollideMask(BitMask32.bit(0))
+        self._gnd_coll_back.setIntoCollideMask(BitMask32.allOff())
+        self._gnd_coll_path_back = self._model.attachNewNode(self._gnd_coll_back)
+        #self._gnd_coll_path_back.show()
+        self._coll_trav.addCollider(self._gnd_coll_path_back, self._gnd_handler_back)
         # Camera collision
         self._gnd_handler_cam = CollisionHandlerQueue()
         self._gnd_ray_cam = CollisionRay()
@@ -171,25 +171,26 @@ class Player(DirectObject):
         self._coll_trav.traverse(render)
 
         entries_front = []
-        entries_rear = []
+        entries_back = []
         for i in range(self._gnd_handler_front.getNumEntries()):
             entries_front.append(self._gnd_handler_front.getEntry(i))
-        for i in range(self._gnd_handler_rear.getNumEntries()):
-            entries_rear.append(self._gnd_handler_rear.getEntry(i))
-        entries_all = entries_front + entries_rear
+        for i in range(self._gnd_handler_back.getNumEntries()):
+            entries_back.append(self._gnd_handler_back.getEntry(i))
+        entries_all = entries_front + entries_back
         for i in range(self._gnd_handler_cam.getNumEntries()):
             entries_all.append(self._gnd_handler_cam.getEntry(i))
         srt = lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                x.getSurfacePoint(render).getZ())
         entries_front.sort(srt)
-        entries_rear.sort(srt)
+        entries_back.sort(srt)
         if entries_all:
             is_valid = lambda x: x and x[0].getIntoNode().getName() == "terrain"
-            if is_valid(entries_front) and is_valid(entries_rear):
+            if is_valid(entries_front) and is_valid(entries_back):
                 f = entries_front[0].getSurfacePoint(render).getZ()
-                r = entries_rear[0].getSurfacePoint(render).getZ()
-                self._model.setZ((f + r) / 2)
-                self._model.setP(rad2Deg(math.atan2((f - r) / 2, self._coll_dist * self._scale)))
+                b = entries_back[0].getSurfacePoint(render).getZ()
+                z = (f + b) / 2
+                self._model.setZ(z)
+                self._model.setP(rad2Deg(math.atan2(f - z, self._coll_dist * self._scale)))
             else:
                 self._model.setPos(pos)
         return Task.cont
