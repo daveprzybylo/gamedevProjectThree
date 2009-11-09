@@ -19,6 +19,7 @@ class Player(DirectObject):
        self._camera_pos = (0, -50, 20)
        self._dir = 0
        self._coll_dist = 5
+       self._scale = .1
 
        self._load_models()
        self._load_lights()
@@ -31,7 +32,7 @@ class Player(DirectObject):
         self._model = Actor("player")
         self._model.reparentTo(render)
         self._model.setPos(0, 0, 5)
-        self._model.setScale(.1)
+        self._model.setScale(self._scale)
 
     def _load_lights(self):
         self._headlight = Spotlight('player-headlight')
