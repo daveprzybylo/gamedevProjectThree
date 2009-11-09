@@ -10,10 +10,12 @@ from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
 import player
-import sys, os
+
+import sys
+import os
 
 
-gameStart=False
+game_started = False
 
 class World(DirectObject):
     def __init__(self):
@@ -23,8 +25,8 @@ class World(DirectObject):
         self._setup_lights()
         #self.music = loader.loadMusic("music.mp3")
         self.accept("escape", sys.exit)
-        self.accept("enter", startGame)
-        
+        self.accept("enter", start_game)
+
 
     def _setup_models(self):
         self.player = player.Player()
@@ -38,23 +40,25 @@ class World(DirectObject):
         ambient_path = render.attachNewNode(ambient)
         render.setLight(ambient_path)
 
-def startGame():
+
+def start_game():
     b.destroy()
     c.destroy()
     textObject.destroy()
+
 
 if __name__ == '__main__':
     bk_text = "Game Menu"
     font = loader.loadFont('arial.ttf')
     font.setPixelsPerUnit(200)
-    textObject = OnscreenText(text = bk_text, font=font, pos = (0,0,.5), 
-                              scale = 0.2,fg=(1,1,1,1),align=TextNode.ACenter,mayChange=1)
-    b = DirectButton(text="Start Game", text_font=font, clickSound = None, command=startGame, text_fg=(1,1,1,1), scale=.15, pos = (0,0,-.5), relief=None)
+    textObject = OnscreenText(text=bk_text, font=font, pos=(0, 0, .5),
+                              scale=0.2, fg=(1, 1, 1, 1),
+                              align=TextNode.ACenter, mayChange=1)
+    b = DirectButton(text="Start Game", text_font=font, clickSound=None,
+                     command=start_game, text_fg=(1, 1, 1, 1), scale=.15,
+                     pos=(0, 0, -.5), relief=None)
     b.setTransparency(1)
     c = OnscreenImage(parent=render2d, image="background.png")
-    
-    
-    w= World()
+
+    w = World()
     run()
-    
-    
