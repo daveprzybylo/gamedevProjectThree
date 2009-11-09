@@ -16,18 +16,24 @@ class Player(DirectObject):
                'right'   : 0,
                'left'    : 0,
        }
-       self._camera_pos = (0, -75, 20)
+       #self._camera_pos = (0, -75, 20)
+       self._camera_pos = (0,-10,2)
        self._dir = 0
        self._coll_dist = 10
        self._coll_dist_h = 3
        self._scale = .1
+       self._floater = NodePath(PandaNode("floater"))
+       self._floater.reparentTo(render)
 
        self._load_models()
        self._load_lights()
+       self._floater.setPos(self._model.getPos())
        self._configure_camera()
        self._setup_actions()
        self._setup_tasks()
        self._setup_collisions()
+       
+
 
     def _load_models(self):
         self._model = Actor("player")
@@ -49,9 +55,11 @@ class Player(DirectObject):
         self.headlight_On = True
 
     def _configure_camera(self):
-        camera.reparentTo(self._model)
+        camera.reparentTo(self._floater)
+        #camera.reparentTo(self._model)
         camera.setPos(self._camera_pos[0], self._camera_pos[1], self._camera_pos[2])
-        camera.lookAt(self._model)
+        camera.lookAt(self._floater)
+        #camera.lookAt(self._model)
 
     def _setup_actions(self):
         self.accept("arrow_up", self._set_key, ["forward", 1])
@@ -147,7 +155,8 @@ class Player(DirectObject):
         rotation_rate = 100
         walk_rate = 10
         cam_rate = .1
-        cam_turn = 10
+        cam_turn = 1.3
+        #cam_turn = 10
         # Get current values
         rotation = self._model.getH()
         pos_x = self._model.getX()
@@ -229,4 +238,6 @@ class Player(DirectObject):
                 self._model.setR(rad2Deg(math.atan2(l - z, self._coll_dist_h * self._scale)))
             else:
                 self._model.setPos(pos)
+        self._floater.setPos(self._model.getPos())
+        self._floater.setH(self._model.getH())
         return Task.cont
