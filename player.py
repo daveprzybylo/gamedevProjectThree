@@ -18,7 +18,8 @@ class Player(DirectObject):
        }
        self._camera_pos = (0, -75, 20)
        self._dir = 0
-       self._coll_dist = 5
+       self._coll_dist = 10
+       self._coll_dist_h = 3
        self._scale = .1
 
        self._load_models()
@@ -101,6 +102,30 @@ class Player(DirectObject):
         self._gnd_coll_path_back = self._model.attachNewNode(self._gnd_coll_back)
         #self._gnd_coll_path_back.show()
         self._coll_trav.addCollider(self._gnd_coll_path_back, self._gnd_handler_back)
+        # Left collision
+        self._gnd_handler_left = CollisionHandlerQueue()
+        self._gnd_ray_left = CollisionRay()
+        self._gnd_ray_left.setOrigin(-self._coll_dist_h, 0, 20)
+        self._gnd_ray_left.setDirection(0, 0, -1)
+        self._gnd_coll_left = CollisionNode('collision-ground-left')
+        self._gnd_coll_left.addSolid(self._gnd_ray_left)
+        self._gnd_coll_left.setFromCollideMask(BitMask32.bit(0))
+        self._gnd_coll_left.setIntoCollideMask(BitMask32.allOff())
+        self._gnd_coll_path_left = self._model.attachNewNode(self._gnd_coll_left)
+        #self._gnd_coll_path_left.show()
+        self._coll_trav.addCollider(self._gnd_coll_path_left, self._gnd_handler_left)
+        # Right collision
+        self._gnd_handler_right = CollisionHandlerQueue()
+        self._gnd_ray_right = CollisionRay()
+        self._gnd_ray_right.setOrigin(self._coll_dist_h, 0, 20)
+        self._gnd_ray_right.setDirection(0, 0, -1)
+        self._gnd_coll_right = CollisionNode('collision-ground-right')
+        self._gnd_coll_right.addSolid(self._gnd_ray_right)
+        self._gnd_coll_right.setFromCollideMask(BitMask32.bit(0))
+        self._gnd_coll_right.setIntoCollideMask(BitMask32.allOff())
+        self._gnd_coll_path_right = self._model.attachNewNode(self._gnd_coll_right)
+        #self._gnd_coll_path_right.show()
+        self._coll_trav.addCollider(self._gnd_coll_path_right, self._gnd_handler_right)
         # Camera collision
         self._gnd_handler_cam = CollisionHandlerQueue()
         self._gnd_ray_cam = CollisionRay()
@@ -172,25 +197,36 @@ class Player(DirectObject):
 
         entries_front = []
         entries_back = []
+        entries_left = []
+        entries_right = []
         for i in range(self._gnd_handler_front.getNumEntries()):
             entries_front.append(self._gnd_handler_front.getEntry(i))
         for i in range(self._gnd_handler_back.getNumEntries()):
             entries_back.append(self._gnd_handler_back.getEntry(i))
-        entries_all = entries_front + entries_back
+        for i in range(self._gnd_handler_left.getNumEntries()):
+            entries_left.append(self._gnd_handler_left.getEntry(i))
+        for i in range(self._gnd_handler_right.getNumEntries()):
+            entries_right.append(self._gnd_handler_right.getEntry(i))
+        entries_all = entries_front + entries_back + entries_left + entries_right
         for i in range(self._gnd_handler_cam.getNumEntries()):
             entries_all.append(self._gnd_handler_cam.getEntry(i))
         srt = lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                x.getSurfacePoint(render).getZ())
         entries_front.sort(srt)
         entries_back.sort(srt)
+        entries_left.sort(srt)
+        entries_right.sort(srt)
         if entries_all:
             is_valid = lambda x: x and x[0].getIntoNode().getName() == "terrain"
-            if is_valid(entries_front) and is_valid(entries_back):
+            if is_valid(entries_front) and is_valid(entries_back) and is_valid(entries_left) and is_valid(entries_right):
                 f = entries_front[0].getSurfacePoint(render).getZ()
                 b = entries_back[0].getSurfacePoint(render).getZ()
+                l = entries_left[0].getSurfacePoint(render).getZ()
+                r = entries_right[0].getSurfacePoint(render).getZ()
                 z = (f + b) / 2
                 self._model.setZ(z)
                 self._model.setP(rad2Deg(math.atan2(f - z, self._coll_dist * self._scale)))
+                self._model.setR(rad2Deg(math.atan2(l - z, self._coll_dist_h * self._scale)))
             else:
                 self._model.setPos(pos)
         return Task.cont
