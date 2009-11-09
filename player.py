@@ -170,20 +170,26 @@ class Player(DirectObject):
 
         self._coll_trav.traverse(render)
 
-        entries = []
+        entries_front = []
+        entries_rear = []
         for i in range(self._gnd_handler.getNumEntries()):
-            entries.append(self._gnd_handler.getEntry(i))
-        entries_all = entries[:]
+            entries_front.append(self._gnd_handler.getEntry(i))
+        for i in range(self._gnd_handler_rear.getNumEntries()):
+            entries_rear.append(self._gnd_handler_rear.getEntry(i))
+        entries_all = entries_front + entries_rear
         for i in range(self._gnd_handler_cam.getNumEntries()):
             entries_all.append(self._gnd_handler_cam.getEntry(i))
-        entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
-                                      x.getSurfacePoint(render).getZ()))
+        srt = lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
+                               x.getSurfacePoint(render).getZ())
+        entries_front.sort(srt)
+        entries_rear.sort(srt)
         if entries_all:
-            if entries and entries[0].getIntoNode().getName() == "terrain":
-                groundAngle = entries[0].getSurfaceNormal(render).angleDeg((0,0,1))
-                if self._model.getP() - groundAngle > 10 or self._model.getP() - groundAngle < -10:
-                    self._model.setP(groundAngle)
-                self._model.setZ(entries[0].getSurfacePoint(render).getZ())
+            is_valid = lambda x: x and x[0].getIntoNode().getName() == "terrain"
+            if is_valid(entries_front) and is_valid(entries_rear):
+                f = entries_front[0].getSurfacePoint(render).getZ()
+                r = entries_rear[0].getSurfacePoint(render).getZ()
+                self._model.setZ((f + r) / 2)
+                self._model.setP(rad2Deg(math.atan2((f - r) / 2, self._coll_dist * self._scale)))
             else:
                 self._model.setPos(pos)
         return Task.cont
