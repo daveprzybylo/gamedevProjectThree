@@ -176,6 +176,9 @@ class Player(DirectObject):
                                       x.getSurfacePoint(render).getZ()))
         if entries_all:
             if entries and entries[0].getIntoNode().getName() == "terrain":
+                groundAngle = entries[0].getSurfaceNormal(render).angleDeg((0,0,1))
+                if self._model.getP() - groundAngle > 10 or self._model.getP() - groundAngle < -10:
+                    self._model.setP(groundAngle)
                 self._model.setZ(entries[0].getSurfacePoint(render).getZ())
             else:
                 self._model.setPos(pos)
