@@ -44,6 +44,7 @@ class World(DirectObject):
 def start_game():
     b.destroy()
     c.destroy()
+    d.destroy()
     textObject.destroy()
 
 
@@ -55,9 +56,13 @@ if __name__ == '__main__':
                               scale=0.2, fg=(1, 1, 1, 1),
                               align=TextNode.ACenter, mayChange=1)
     b = DirectButton(text="Start Game", text_font=font, clickSound=None,
-                     command=start_game, text_fg=(1, 1, 1, 1), scale=.15,
+                     command=start_game, text_fg=(1, 1, 1, 1), scale=.1,
                      pos=(0, 0, -.5), relief=None)
     b.setTransparency(1)
+    d = DirectButton(text="Quit", text_font=font, clickSound=None,
+                     command=sys.exit, text_fg=(1, 1, 1, 1), scale=.1,
+                     pos=(0, 0, -.62), relief=None)
+    d.setTransparency(1)
     c = OnscreenImage(parent=render2d, image="background.png")
 
     w = World()
