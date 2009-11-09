@@ -16,7 +16,7 @@ class Player(DirectObject):
                'right'   : 0,
                'left'    : 0,
        }
-       self._camera_pos = (0, -50, 20)
+       self._camera_pos = (0, -75, 20)
        self._dir = 0
        self._coll_dist = 5
        self._scale = .1
