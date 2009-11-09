@@ -45,9 +45,11 @@ def startGame():
 
 if __name__ == '__main__':
     bk_text = "Game Menu"
-    textObject = OnscreenText(text = bk_text,  pos = (0,0,.5), 
+    font = loader.loadFont('arial.ttf')
+    font.setPixelsPerUnit(200)
+    textObject = OnscreenText(text = bk_text, font=font, pos = (0,0,.5), 
                               scale = 0.2,fg=(1,1,1,1),align=TextNode.ACenter,mayChange=1)
-    b = DirectButton(text="Start Game", clickSound = None, command=startGame, text_fg=(1,1,1,1), scale=.15, pos = (0,0,-.5), relief=None)
+    b = DirectButton(text="Start Game", text_font=font, clickSound = None, command=startGame, text_fg=(1,1,1,1), scale=.15, pos = (0,0,-.5), relief=None)
     b.setTransparency(1)
     c = OnscreenImage(parent=render2d, image="background.png")
     
