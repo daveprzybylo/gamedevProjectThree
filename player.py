@@ -18,6 +18,8 @@ class Player(DirectObject):
        }
        self._camera_pos = (0, -50, 20)
        self._dir = 0
+       self._coll_dist = 5
+
        self._load_models()
        self._load_lights()
        self._configure_camera()
@@ -59,7 +61,7 @@ class Player(DirectObject):
         self.accept("arrow_right", self._set_key, ["right", 1])
         self.accept("arrow_right-up", self._set_key, ["right", 0])
         self.accept('f',self._toggle_headlight)
-        
+
     def _toggle_headlight(self):
         if self.headlight_On:
             render.clearLight(self._headlight_path)
@@ -77,7 +79,7 @@ class Player(DirectObject):
         self._gnd_handler = CollisionHandlerQueue()
         # Nose collision
         self._gnd_ray = CollisionRay()
-        self._gnd_ray.setOrigin(0, 10, 20)
+        self._gnd_ray.setOrigin(0, self._coll_dist, 20)
         self._gnd_ray.setDirection(0, 0, -1)
         self._gnd_coll = CollisionNode('collision-ground-front')
         self._gnd_coll.addSolid(self._gnd_ray)
@@ -88,7 +90,7 @@ class Player(DirectObject):
         self._coll_trav.addCollider(self._gnd_coll_path, self._gnd_handler)
         # Rear collision
         self._gnd_ray_rear = CollisionRay()
-        self._gnd_ray_rear.setOrigin(0, -10, 20)
+        self._gnd_ray_rear.setOrigin(0, -self._coll_dist, 20)
         self._gnd_ray_rear.setDirection(0, 0, -1)
         self._gnd_coll_rear = CollisionNode('collision-ground-back')
         self._gnd_coll_rear.addSolid(self._gnd_ray_rear)
