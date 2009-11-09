@@ -77,18 +77,18 @@ class Player(DirectObject):
 
     def _setup_collisions(self):
         self._coll_trav = CollisionTraverser()
-        self._gnd_handler = CollisionHandlerQueue()
-        # Nose collision
-        self._gnd_ray = CollisionRay()
-        self._gnd_ray.setOrigin(0, self._coll_dist, 20)
-        self._gnd_ray.setDirection(0, 0, -1)
-        self._gnd_coll = CollisionNode('collision-ground-front')
-        self._gnd_coll.addSolid(self._gnd_ray)
-        self._gnd_coll.setFromCollideMask(BitMask32.bit(0))
-        self._gnd_coll.setIntoCollideMask(BitMask32.allOff())
-        self._gnd_coll_path = self._model.attachNewNode(self._gnd_coll)
-        #self._gnd_coll_path.show()
-        self._coll_trav.addCollider(self._gnd_coll_path, self._gnd_handler)
+        # Front collision
+        self._gnd_handler_front = CollisionHandlerQueue()
+        self._gnd_ray_front = CollisionRay()
+        self._gnd_ray_front.setOrigin(0, self._coll_dist, 20)
+        self._gnd_ray_front.setDirection(0, 0, -1)
+        self._gnd_coll_front = CollisionNode('collision-ground-front')
+        self._gnd_coll_front.addSolid(self._gnd_ray_front)
+        self._gnd_coll_front.setFromCollideMask(BitMask32.bit(0))
+        self._gnd_coll_front.setIntoCollideMask(BitMask32.allOff())
+        self._gnd_coll_path_front = self._model.attachNewNode(self._gnd_coll_front)
+        #self._gnd_coll_path_front.show()
+        self._coll_trav.addCollider(self._gnd_coll_path_front, self._gnd_handler_front)
         # Rear collision
         self._gnd_handler_rear = CollisionHandlerQueue()
         self._gnd_ray_rear = CollisionRay()
@@ -172,8 +172,8 @@ class Player(DirectObject):
 
         entries_front = []
         entries_rear = []
-        for i in range(self._gnd_handler.getNumEntries()):
-            entries_front.append(self._gnd_handler.getEntry(i))
+        for i in range(self._gnd_handler_front.getNumEntries()):
+            entries_front.append(self._gnd_handler_front.getEntry(i))
         for i in range(self._gnd_handler_rear.getNumEntries()):
             entries_rear.append(self._gnd_handler_rear.getEntry(i))
         entries_all = entries_front + entries_rear
