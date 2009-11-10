@@ -142,7 +142,7 @@ class Player(DirectObject):
         self._gnd_coll_cam.addSolid(self._gnd_ray_cam)
         self._gnd_coll_cam.setFromCollideMask(BitMask32.bit(0))
         self._gnd_coll_cam.setIntoCollideMask(BitMask32.allOff())
-        self._gnd_coll_path_cam = self._model.attachNewNode(self._gnd_coll_cam)
+        self._gnd_coll_path_cam = self._floater.attachNewNode(self._gnd_coll_cam)
         #self._gnd_coll_path_cam.show()
         self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler_cam)
 
