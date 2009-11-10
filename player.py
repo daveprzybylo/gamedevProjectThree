@@ -25,7 +25,6 @@ class Player(DirectObject):
 
         self._load_models()
         self._load_lights()
-        self._floater.setPos(self._model.getPos())
         self._configure_camera()
         self._setup_actions()
         self._setup_tasks()
@@ -36,6 +35,9 @@ class Player(DirectObject):
         self._model.reparentTo(render)
         self._model.setPos(0, 0, 5)
         self._model.setScale(self._scale)
+        self._floater = NodePath(PandaNode("floater"))
+        self._floater.reparentTo(render)
+        self._floater.setPos(self._model.getPos())
 
     def _load_lights(self):
         self._headlight = Spotlight('player-headlight')
