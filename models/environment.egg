@@ -59,7 +59,7 @@
   <Scalar> envtype { modulate }
 }
 <Group> game {
-  <Dart> { 1 }
+  
   <Group> groundPlane_transform {
   }
   <Group> ice {
