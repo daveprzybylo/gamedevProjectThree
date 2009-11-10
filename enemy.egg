@@ -4,7 +4,7 @@
   "maya2egg2009 -cs y-up -a model -cn game -o enemy.egg 'C:\Users\Tour\Desktop\Vehicle\enemy.mb'"
 }
 <Texture> phong1SG {
-  "enemy copy.png"
+  "enemy.png"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
