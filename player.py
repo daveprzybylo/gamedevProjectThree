@@ -176,7 +176,6 @@ class Player(DirectObject):
         self._model.setH(rotation)
         self._model.setX(pos_x)
         self._model.setY(pos_y)
-        self._prev_move_time = task.time
 
         ival = None
         if self._keymap['left']:
@@ -238,4 +237,6 @@ class Player(DirectObject):
                 self._model.setPos(pos)
         self._floater.setPos(self._model.getPos())
         self._floater.setH(self._model.getH())
+
+        self._prev_move_time = task.time
         return Task.cont
