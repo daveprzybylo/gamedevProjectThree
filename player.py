@@ -224,23 +224,20 @@ class Player(DirectObject):
             cam_z = max(cam_z, entries_cam[0].getSurfacePoint(render).getZ() + self._cam_min_dist)
         ival = None
         if self._keymap['left']:
-            if not self._dir == -1:
-                self._dir = -1
-                ival = camera.posHprInterval(cam_rate,
-                        (-cam_turn, camera.getY(), cam_z),
-                        (-cam_turn, camera.getP(), camera.getR()))
+            self._dir = -1
+            ival = camera.posHprInterval(cam_rate,
+                    (-cam_turn, camera.getY(), cam_z),
+                    (-cam_turn, camera.getP(), camera.getR()))
         elif self._keymap['right']:
-            if not self._dir == 1:
-                self._dir = 1
-                ival = camera.posHprInterval(cam_rate,
-                        (cam_turn, camera.getY(), cam_z),
-                        (cam_turn, camera.getP(), camera.getR()))
+            self._dir = 1
+            ival = camera.posHprInterval(cam_rate,
+                    (cam_turn, camera.getY(), cam_z),
+                    (cam_turn, camera.getP(), camera.getR()))
         else:
-            if not self._dir == 0:
-                self._dir = 0
-                ival = camera.posHprInterval(cam_rate / 2,
-                        (0, camera.getY(), cam_z),
-                        (0, camera.getP(), camera.getR()))
+            self._dir = 0
+            ival = camera.posHprInterval(cam_rate / 2,
+                    (0, camera.getY(), cam_z),
+                    (0, camera.getP(), camera.getR()))
         if ival:
             ival.start()
 
