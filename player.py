@@ -136,7 +136,7 @@ class Player(DirectObject):
         # Camera collision
         self._gnd_handler_cam = CollisionHandlerQueue()
         self._gnd_ray_cam = CollisionRay()
-        self._gnd_ray_cam.setOrigin(self._camera_pos[0], self._camera_pos[1], 20)
+        self._gnd_ray_cam.setOrigin(camera.getX(), camera.getY(), 20)
         self._gnd_ray_cam.setDirection(0, 0, -1)
         self._gnd_coll_cam = CollisionNode('collision-ground-cam')
         self._gnd_coll_cam.addSolid(self._gnd_ray_cam)
@@ -240,6 +240,8 @@ class Player(DirectObject):
                     (0, camera.getP(), camera.getR()))
         if ival:
             ival.start()
+        camera.lookAt(self._floater)
+        self._gnd_ray_cam.setOrigin(camera.getX(), camera.getY(), 20)
 
         self._prev_move_time = task.time
         return Task.cont
