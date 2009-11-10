@@ -30,10 +30,9 @@ class World(DirectObject):
 
     def _setup_models(self):
         self.player = player.Player()
-        #self.env = loader.loadModel('environment')
-        self.env = loader.loadModel(os.path.join('models','world'))
+        self.env = loader.loadModel(os.path.join("models","environment"))
         self.env.reparentTo(render)
-        self.env.setPos(0, 0, 0)
+        self.env.setPos(0, 0, 5)
 
     def _setup_lights(self):
         ambient = AmbientLight("light-ambient")
@@ -51,7 +50,7 @@ def start_game():
 
 if __name__ == '__main__':
     bk_text = "Game Menu"
-    font = loader.loadFont('arial.ttf')
+    font = loader.loadFont(os.path.join("fonts","arial.ttf"))
     font.setPixelsPerUnit(200)
     textObject = OnscreenText(text=bk_text, font=font, pos=(0, 0, .5),
                               scale=0.2, fg=(1, 1, 1, 1),
@@ -64,7 +63,7 @@ if __name__ == '__main__':
                      command=sys.exit, text_fg=(1, 1, 1, 1), scale=.1,
                      pos=(0, 0, -.62), relief=None)
     d.setTransparency(1)
-    c = OnscreenImage(parent=render2d, image="background.png")
+    c = OnscreenImage(parent=render2d, image=os.path.join("models","background.png"))
 
     w = World()
     run()

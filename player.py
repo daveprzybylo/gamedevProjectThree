@@ -5,7 +5,7 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
-import math
+import math, os
 
 
 class Player(DirectObject):
@@ -33,7 +33,7 @@ class Player(DirectObject):
         self._setup_collisions()
 
     def _load_models(self):
-        self._model = Actor("player")
+        self._model = Actor(os.path.join("models","player"))
         self._model.reparentTo(render)
         self._model.setPos(0, 0, 5)
         self._model.setScale(self._scale)
