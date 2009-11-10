@@ -32,7 +32,7 @@ class World(DirectObject):
         self.player = player.Player()
         self.env = loader.loadModel(os.path.join("models","environment"))
         self.env.reparentTo(render)
-        self.env.setPos(0, 0, 5)
+        self.env.setPos(0, 0, 3)
 
     def _setup_lights(self):
         ambient = AmbientLight("light-ambient")
