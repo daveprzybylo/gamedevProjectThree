@@ -18,6 +18,7 @@ class Player(DirectObject):
         }
         #self._camera_pos = (0, -75, 20)
         self._camera_pos = (0,-10,2)
+        self._cam_min_dist = 2
         self._dir = 0
         self._coll_dist = 10
         self._coll_dist_h = 3
@@ -177,28 +178,6 @@ class Player(DirectObject):
         self._model.setX(pos_x)
         self._model.setY(pos_y)
 
-        ival = None
-        if self._keymap['left']:
-            if not self._dir == -1:
-                self._dir = -1
-                ival = camera.posHprInterval(cam_rate,
-                        (-cam_turn, camera.getY(), camera.getZ()),
-                        (-cam_turn, camera.getP(), camera.getR()))
-        elif self._keymap['right']:
-            if not self._dir == 1:
-                self._dir = 1
-                ival = camera.posHprInterval(cam_rate,
-                        (cam_turn, camera.getY(), camera.getZ()),
-                        (cam_turn, camera.getP(), camera.getR()))
-        else:
-            if not self._dir == 0:
-                self._dir = 0
-                ival = camera.posHprInterval(cam_rate / 2,
-                        (0, camera.getY(), camera.getZ()),
-                        (0, camera.getP(), camera.getR()))
-        if ival:
-            ival.start()
-
         self._coll_trav.traverse(render)
 
         entries_front = []
@@ -214,8 +193,6 @@ class Player(DirectObject):
         for i in range(self._gnd_handler_right.getNumEntries()):
             entries_right.append(self._gnd_handler_right.getEntry(i))
         entries_all = entries_front + entries_back + entries_left + entries_right
-        for i in range(self._gnd_handler_cam.getNumEntries()):
-            entries_all.append(self._gnd_handler_cam.getEntry(i))
         srt = lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                x.getSurfacePoint(render).getZ())
         entries_front.sort(srt)
@@ -237,6 +214,35 @@ class Player(DirectObject):
                 self._model.setPos(pos)
         self._floater.setPos(self._model.getPos())
         self._floater.setH(self._model.getH())
+
+        entries_cam = []
+        for i in range(self._gnd_handler_cam.getNumEntries()):
+            entries_cam.append(self._gnd_handler_cam.getEntry(i))
+        entries_cam = filter(lambda x: x.getIntoNode().getName() == "terrain", entries_cam)
+        cam_z = self._camera_pos[2]
+        if entries_cam:
+            cam_z = max(cam_z, entries_cam[0].getSurfacePoint(render).getZ() + self._cam_min_dist)
+        ival = None
+        if self._keymap['left']:
+            if not self._dir == -1:
+                self._dir = -1
+                ival = camera.posHprInterval(cam_rate,
+                        (-cam_turn, camera.getY(), cam_z),
+                        (-cam_turn, camera.getP(), camera.getR()))
+        elif self._keymap['right']:
+            if not self._dir == 1:
+                self._dir = 1
+                ival = camera.posHprInterval(cam_rate,
+                        (cam_turn, camera.getY(), cam_z),
+                        (cam_turn, camera.getP(), camera.getR()))
+        else:
+            if not self._dir == 0:
+                self._dir = 0
+                ival = camera.posHprInterval(cam_rate / 2,
+                        (0, camera.getY(), cam_z),
+                        (0, camera.getP(), camera.getR()))
+        if ival:
+            ival.start()
 
         self._prev_move_time = task.time
         return Task.cont
