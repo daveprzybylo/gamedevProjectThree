@@ -30,7 +30,8 @@ class World(DirectObject):
 
     def _setup_models(self):
         self.player = player.Player()
-        self.env = loader.loadModel('environment')
+        #self.env = loader.loadModel('environment')
+        self.env = loader.loadModel(os.path.join('models','world'))
         self.env.reparentTo(render)
         self.env.setPos(0, 0, 0)
 
