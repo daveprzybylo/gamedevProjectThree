@@ -50,7 +50,7 @@ class Player(DirectObject):
         self._headlight_path.setPos(0, 0, 0)
         self._headlight_path.setHpr(0, 0, 0)
         render.setLight(self._headlight_path)
-        self.headlight_On = True
+        self._headlight_on = True
 
     def _configure_camera(self):
         camera.reparentTo(self._floater)
@@ -71,12 +71,12 @@ class Player(DirectObject):
         self.accept('f',self._toggle_headlight)
 
     def _toggle_headlight(self):
-        if self.headlight_On:
+        if self._headlight_on:
             render.clearLight(self._headlight_path)
-            self.headlight_On = False
+            self._headlight_on = False
         else:
             render.setLight(self._headlight_path)
-            self.headlight_On = True
+            self._headlight_on = True
 
     def _setup_tasks(self):
         self._prev_move_time = 0
