@@ -23,6 +23,7 @@ class Player(DirectObject):
         self._coll_dist = 10
         self._coll_dist_h = 3
         self._scale = .1
+        self._fixed_camera = False
 
         self._load_models()
         self._load_lights()
@@ -68,6 +69,7 @@ class Player(DirectObject):
         self.accept("arrow_right", self._set_key, ["right", 1])
         self.accept("arrow_right-up", self._set_key, ["right", 0])
         self.accept('f',self._toggle_headlight)
+        self.accept('space',self._toggle_camera)
 
     def _toggle_headlight(self):
         if self._headlight_on:
@@ -76,6 +78,12 @@ class Player(DirectObject):
         else:
             render.setLight(self._headlight_path)
             self._headlight_on = True
+
+    def _toggle_camera(self):
+        if self._fixed_camera:
+            self._fixed_camera = False
+        else:
+            self._fixed_camera = True
 
     def _setup_tasks(self):
         self._prev_move_time = 0
@@ -219,7 +227,7 @@ class Player(DirectObject):
         entries_cam = filter(lambda x: x.getIntoNode().getName() == "terrain", entries_cam)
         entries_cam.sort(srt)
         cam_z = self._camera_pos[2]
-        if entries_cam:
+        if entries_cam and self._fixed_camera:
             cam_z = max(cam_z, entries_cam[0].getSurfacePoint(render).getZ() + self._cam_min_dist)
         ival = None
         if self._keymap['left']:
