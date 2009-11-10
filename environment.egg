@@ -34,8 +34,8 @@
   }
 }
 <Texture> phong2SG {
-  "environment_color copy.png"
-  <Scalar> alpha-file { "environment_trans copy.png" }
+  "environment_color.png"
+  <Scalar> alpha-file { "environment_trans.png" }
   <Scalar> format { rgba }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
