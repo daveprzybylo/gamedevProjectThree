@@ -55,10 +55,8 @@ class Player(DirectObject):
 
     def _configure_camera(self):
         camera.reparentTo(self._floater)
-        #camera.reparentTo(self._model)
         camera.setPos(self._camera_pos[0], self._camera_pos[1], self._camera_pos[2])
         camera.lookAt(self._floater)
-        #camera.lookAt(self._model)
 
     def _setup_actions(self):
         self.accept("arrow_up", self._set_key, ["forward", 1])
@@ -219,6 +217,7 @@ class Player(DirectObject):
         for i in range(self._gnd_handler_cam.getNumEntries()):
             entries_cam.append(self._gnd_handler_cam.getEntry(i))
         entries_cam = filter(lambda x: x.getIntoNode().getName() == "terrain", entries_cam)
+        entries_cam.sort(srt)
         cam_z = self._camera_pos[2]
         if entries_cam:
             cam_z = max(cam_z, entries_cam[0].getSurfacePoint(render).getZ() + self._cam_min_dist)
