@@ -10,30 +10,26 @@ import math
 
 class Player(DirectObject):
     def __init__(self):
-       self._keymap = {
-               'forward' : 0,
-               'reverse' : 0,
-               'right'   : 0,
-               'left'    : 0,
-       }
-       #self._camera_pos = (0, -75, 20)
-       self._camera_pos = (0,-10,2)
-       self._dir = 0
-       self._coll_dist = 10
-       self._coll_dist_h = 3
-       self._scale = .1
-       self._floater = NodePath(PandaNode("floater"))
-       self._floater.reparentTo(render)
+        self._keymap = {
+                'forward' : 0,
+                'reverse' : 0,
+                'right'   : 0,
+                'left'    : 0,
+        }
+        #self._camera_pos = (0, -75, 20)
+        self._camera_pos = (0,-10,2)
+        self._dir = 0
+        self._coll_dist = 10
+        self._coll_dist_h = 3
+        self._scale = .1
 
-       self._load_models()
-       self._load_lights()
-       self._floater.setPos(self._model.getPos())
-       self._configure_camera()
-       self._setup_actions()
-       self._setup_tasks()
-       self._setup_collisions()
-       
-
+        self._load_models()
+        self._load_lights()
+        self._floater.setPos(self._model.getPos())
+        self._configure_camera()
+        self._setup_actions()
+        self._setup_tasks()
+        self._setup_collisions()
 
     def _load_models(self):
         self._model = Actor("player")
