@@ -27,7 +27,6 @@ class World(DirectObject):
         render.setShaderAuto()
         self._setup_models()
         self._setup_lights()
-        #self.music = loader.loadMusic("music.mp3")
         self.accept("escape", sys.exit)
         self.accept("enter", start_game)
         self.accept('artifact_gotten', self.got_artifact)
@@ -82,7 +81,7 @@ def start_game():
 
 if __name__ == '__main__':
     bk_text = "Satan's Space Sanctuary"
-    font = loader.loadFont(os.path.join("fonts","arial.ttf"))
+    font = loader.loadFont(os.path.join("fonts", "arial.ttf"))
     font.setPixelsPerUnit(200)
     textObject = OnscreenText(text=bk_text, font=font, pos = (0, 0.7),
                               scale=0.2, fg=(1, 1, 1, 1),
