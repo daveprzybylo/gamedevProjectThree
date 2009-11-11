@@ -31,10 +31,9 @@ class World(DirectObject):
         self.artifact_count = 0
 
     def got_artifact(self, cEntry):
-        if self.artifact_count > 1:
-            print 'You got Satans artifact, yay!'
-        else:
-            self.artifact_count += 1
+        #print cEntry
+        if cEntry.getFromNode().getName() == 'artifact' and cEntry.getIntoNode().getName().find('player') != -1:
+            print 'You Win!'
 
     def _setup_models(self):
         self.player = player.Player()
@@ -44,6 +43,24 @@ class World(DirectObject):
         self.enemylist = []
         self._wave_one()
         taskMgr.add(self._task_checkpoint, "world-task-checkpoint")
+        
+        base.cTrav = CollisionTraverser()
+        self.cHandler = CollisionHandlerEvent()
+        self.cHandler.setInPattern("artifact_gotten")
+        
+        self.artifact = loader.loadModel(os.path.join('models','artifact'))
+        self.artifact.setPos(-290,9,283)
+        self.artifact.reparentTo(render)
+        
+        cSphere = CollisionSphere(0,0,0,10)
+        cNode = CollisionNode("artifact")
+        cNode.addSolid(cSphere)
+        cNode.setIntoCollideMask(BitMask32.bit(3))
+    
+        cNodePath = self.artifact.attachNewNode(cNode)
+        #cNodePath.show()
+        self.player._coll_trav.addCollider(cNodePath, self.cHandler)
+        
 
     def _wave_one(self):
         self.wave=1
@@ -142,28 +159,7 @@ class World(DirectObject):
         self.enemylist.append(enemy.Enemy((-203.6, 185.9, 118.8)))
         self.enemylist.append(enemy.Enemy((-248.6, 186.0, 127.3)))
         # Wave 10
-        
-        
-        
-        
-        
-        
-        base.cTrav = CollisionTraverser()
-        self.cHandler = CollisionHandlerEvent()
-        self.cHandler.setInPattern("artifact_gotten")
-        
-        self.artifact = loader.loadModel('panda')
-        self.artifact.setScale(.5)
-        self.artifact.setPos(-290,9,275)
-        self.artifact.reparentTo(render)
-        
-        cSphere = CollisionSphere(0,0,0,10)
-        cNode = CollisionNode("artifact")
-        cNode.addSolid(cSphere)
-        cNode.setIntoCollideMask(BitMask32.bit(3))
-        
-        cNodePath = self.artifact.attachNewNode(cNode)
-        base.cTrav.addCollider(cNodePath, self.cHandler)
+
     def _setup_lights(self):
         ambient = AmbientLight("light-ambient")
         ambient.setColor((.13, .13, .13, 1))
