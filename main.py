@@ -1,5 +1,6 @@
 from pandac.PandaModules import loadPrcFileData 
 loadPrcFileData( '', 'window-title Satan\'s Space Sanctuary' )
+loadPrcFileData( '', 'notify-level fatal')
 import direct.directbase.DirectStart
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
