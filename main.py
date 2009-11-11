@@ -43,9 +43,9 @@ class World(DirectObject):
         self.env = loader.loadModel(os.path.join("models", "environment"))
         self.env.reparentTo(render)
         self.env.setPos(0, 0, 0)
-        self.enemylist=[]
+        self.enemylist = []
         for i in range(5):
-            newenemy= enemy.enemy(0,0,100, self.player._coll_trav)
+            newenemy= enemy.Enemy(0, 0, 100, self.player._coll_trav)
             self.enemylist.append(enemy)
 
         base.cTrav = CollisionTraverser()

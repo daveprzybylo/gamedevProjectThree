@@ -15,7 +15,7 @@ import random
 import sys
 
 
-class enemy(DirectObject):
+class Enemy(DirectObject):
     def __init__(self, i, cTrav):
         self.cTrav=cTrav
         self._load_models(i)
