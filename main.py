@@ -36,6 +36,7 @@ class World(DirectObject):
         self.env = loader.loadModel(os.path.join("models","environment"))
         self.env.reparentTo(render)
         self.env.setPos(0, 0, 0)
+        self.enemylist=[]
         for i in range(5):
             newenemy= enemy.enemy(i, self.player._coll_trav)
             self.enemylist.append(enemy)
