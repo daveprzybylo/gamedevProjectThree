@@ -33,7 +33,10 @@ class World(DirectObject):
     def got_artifact(self, cEntry):
         #print cEntry
         if cEntry.getFromNode().getName() == 'artifact' and cEntry.getIntoNode().getName().find('player') != -1:
-            print 'You Win!'
+            winscreen = OnscreenImage(parent=render2d, image=os.path.join("models", "titlescreen.png"))
+            win = OnscreenText(text="You Win!", font=font, pos = (0, 0.7),
+                              scale=0.2, fg=(1, 1, 1, 1),
+                              mayChange=0)
 
     def _setup_models(self):
         self.player = player.Player()

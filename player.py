@@ -39,6 +39,7 @@ class Player(DirectObject):
         self.textObject = OnscreenText(text=self.bk_text+str(self.health), font=self.font, pos = (-1, -.95),
                               scale=0.1, fg=(1, 1, 1, 1),
                               mayChange=1)
+        self.win = False
 
     def _load_models(self):
         self._model = Actor(os.path.join("models", "player"))
@@ -311,9 +312,11 @@ class Player(DirectObject):
         self._gnd_ray_cam.setOrigin(camera.getX(), camera.getY(), 20)
 
         self._prev_move_time = task.time
-        if self.health > 0:
+        if self.health >= 0:
             self.textObject.setText(self.bk_text+str(self.health))
-        if self.health <= 0:
+        if self.health <= 0 and self.win == False:
              c = OnscreenImage(parent=render2d, image=os.path.join("models", "titlescreen.png"))
-             self.textObject.destroy()
+             lose = OnscreenText(text="You Lose!", font=self.font, pos = (0, 0.7),
+                              scale=0.2, fg=(1, 1, 1, 1),
+                              mayChange=0)
         return Task.cont
