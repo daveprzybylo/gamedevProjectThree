@@ -45,8 +45,7 @@ class World(DirectObject):
         self.env.setPos(0, 0, 0)
         self.enemylist = []
         for i in range(5):
-            newenemy= enemy.Enemy(0, 0, 100, self.player._coll_trav)
-            self.enemylist.append(enemy)
+            self.enemylist.append(enemy.Enemy(0, 0, 100, self.player._coll_trav))
 
         base.cTrav = CollisionTraverser()
         self.cHandler = CollisionHandlerEvent()

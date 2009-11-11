@@ -217,8 +217,10 @@ class Player(DirectObject):
             if self._keymap['forward'] == 1 or self._keymap['reverse'] == 1 or self._keymap['left'] == 1 or self._keymap['right'] == 1:
                 self._sound_snowmobile.play()
                 self._sound_snowmobile.setLoop(True)
-        if self._sound_snowmobile.status() == 2 and self._keymap['forward'] == 0 and self._keymap['reverse'] == 0 and self._keymap['left'] == 0 and self._keymap['right'] == 0:
+        elif self._sound_snowmobile.status() == 2:
+            if self._keymap['forward'] == 0 and self._keymap['reverse'] == 0 and self._keymap['left'] == 0 and self._keymap['right'] == 0:
                 self._sound_snowmobile.stop()
+
         # Save back to the model
         self._model.setH(rotation)
         self._model.setX(pos_x)
