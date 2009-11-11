@@ -40,9 +40,9 @@ class Player(DirectObject):
         self._floater = NodePath(PandaNode("floater"))
         self._floater.reparentTo(render)
         self._floater.setPos(self._model.getPos())
-        self.skybox = loader.loadModel(os.path.join('models','sky'))
-        self.skybox.reparentTo(render)
-        self.skybox.setPos(0,0,3)
+        self._skybox = loader.loadModel(os.path.join("models", "sky"))
+        self._skybox.reparentTo(render)
+        self._skybox.setPos(0,0,3)
 
     def _load_sounds(self):
         self._sound_toggle = loader.loadSfx(os.path.join("sounds", "Headlight toggle.mp3"))
@@ -59,13 +59,13 @@ class Player(DirectObject):
         self._headlight_path.setPos(0, 0, 0)
         self._headlight_path.setHpr(0, 0, 0)
         render.setLight(self._headlight_path)
-        self.skybox.setLightOff()
+        self._skybox.setLightOff()
         self._headlight_on = True
         
-        self.skylight = AmbientLight('skylight')
-        self.skylight.setColor((.5,.5,.5,1))
-        self.skylightpath = render.attachNewNode(self.skylight)
-        self.skybox.setLight(self.skylightpath)
+        self._skylight = AmbientLight('skylight')
+        self._skylight.setColor((.5,.5,.5,1))
+        self._skylight_path = render.attachNewNode(self._skylight)
+        self._skybox.setLight(self._skylight_path)
 
     def _configure_camera(self):
         camera.reparentTo(self._floater)
@@ -91,6 +91,8 @@ class Player(DirectObject):
             self._headlight_on = False
         else:
             render.setLight(self._headlight_path)
+            self._skybox.setLightOff()
+            self._skybox.setLight(self._skylight_path)
             self._sound_toggle.play()
             self._headlight_on = True
 
@@ -187,8 +189,6 @@ class Player(DirectObject):
         self._keymap[key] = value
 
     def _task_move(self, task):
-        self.skybox.setLightOff()
-        self.skybox.setLight(self.skylightpath)
         et = task.time - self._prev_move_time
         rotation_rate = 100
         walk_rate = 50
