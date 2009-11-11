@@ -4,6 +4,8 @@ from direct.showbase.DirectObject import DirectObject
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
+from direct.gui.OnscreenText import OnscreenText
+from direct.gui.OnscreenImage import OnscreenImage
 
 import math
 import os
@@ -31,6 +33,12 @@ class Player(DirectObject):
         self._setup_actions()
         self._setup_tasks()
         self._setup_collisions()
+        self.health = 100
+        self.font = loader.loadFont(os.path.join("fonts", "arial.ttf"))
+        self.bk_text= "Health   "
+        self.textObject = OnscreenText(text=self.bk_text+str(self.health), font=self.font, pos = (-1, -.95),
+                              scale=0.1, fg=(1, 1, 1, 1),
+                              mayChange=1)
 
     def _load_models(self):
         self._model = Actor(os.path.join("models", "player"))
@@ -43,6 +51,7 @@ class Player(DirectObject):
         self._skybox = loader.loadModel(os.path.join("models", "sky"))
         self._skybox.reparentTo(render)
         self._skybox.setPos(0,0,3)
+        
 
     def _load_sounds(self):
         self._sound_toggle = loader.loadSfx(os.path.join("sounds", "headlight-toggle.mp3"))

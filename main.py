@@ -176,7 +176,6 @@ class World(DirectObject):
         self.accept('artifact_gotten', self.got_artifact)
 
     def _task_checkpoint(self, task):
-        print self.player._model.getZ()
         if self.player._model.getZ()  > 20 and self.wave==1:
             self._wave_two()
         if self.player._model.getZ()  > 25.8 and self.wave==2:
