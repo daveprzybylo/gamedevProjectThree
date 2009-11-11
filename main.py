@@ -49,7 +49,7 @@ def start_game():
 
 
 if __name__ == '__main__':
-    bk_text = "Temple of Satan"
+    bk_text = "Satan's Space Sanctuary"
     font = loader.loadFont(os.path.join("fonts","arial.ttf"))
     font.setPixelsPerUnit(200)
     textObject = OnscreenText(text=bk_text, font=font, pos = (0, 0.7),
