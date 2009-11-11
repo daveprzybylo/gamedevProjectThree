@@ -27,9 +27,7 @@ class World(DirectObject):
         render.setShaderAuto()
         self._setup_models()
         self._setup_lights()
-        self.accept("escape", sys.exit)
-        self.accept("enter", start_game)
-        self.accept('artifact_gotten', self.got_artifact)
+        self._setup_actions()
         self.artifact_count = 0
 
     def got_artifact(self,cEntry):
@@ -82,6 +80,11 @@ class World(DirectObject):
         ambient.setColor((.13, .13, .13, 1))
         ambient_path = render.attachNewNode(ambient)
         render.setLight(ambient_path)
+
+    def _setup_actions(self):
+        self.accept("escape", sys.exit)
+        self.accept("enter", start_game)
+        self.accept('artifact_gotten', self.got_artifact)
 
 
 def start_game():
