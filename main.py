@@ -30,7 +30,14 @@ class World(DirectObject):
         #self.music = loader.loadMusic("music.mp3")
         self.accept("escape", sys.exit)
         self.accept("enter", start_game)
+        self.accept('artifact_gotten', self.got_artifact)
+        self.artifact_count = 0
 
+    def got_artifact(self,cEntry):
+        if self.artifact_count > 1:
+            print 'You got Satans artifact, yay!'
+        else:
+            self.artifact_count += 1
 
     def _setup_models(self):
         self.player = player.Player()
@@ -41,6 +48,23 @@ class World(DirectObject):
         for i in range(5):
             newenemy= enemy.enemy(i, self.player._coll_trav)
             self.enemylist.append(enemy)
+
+        base.cTrav = CollisionTraverser()
+        self.cHandler = CollisionHandlerEvent()
+        self.cHandler.setInPattern("artifact_gotten")
+        
+        self.artifact = loader.loadModel('panda')
+        self.artifact.setScale(.5)
+        self.artifact.setPos(-290,9,275)
+        self.artifact.reparentTo(render)
+        
+        cSphere = CollisionSphere(0,0,0,10)
+        cNode = CollisionNode("artifact")
+        cNode.addSolid(cSphere)
+        cNode.setIntoCollideMask(BitMask32.bit(3))
+        
+        cNodePath = self.artifact.attachNewNode(cNode)
+        base.cTrav.addCollider(cNodePath, self.cHandler)
 
     def _setup_lights(self):
         ambient = AmbientLight("light-ambient")
