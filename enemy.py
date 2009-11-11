@@ -17,6 +17,7 @@ import sys
 
 class Enemy(DirectObject):
     def __init__(self, pos):
+        self._is_moving=False
         self._load_models(pos)
         self._setup_collisions()
         self._setup_tasks()
@@ -85,7 +86,7 @@ class Enemy(DirectObject):
         self._player_coll.setFromCollideMask(BitMask32.bit(0))
         self._player_coll.setIntoCollideMask(BitMask32.bit(7))
         self._player_coll_path = self._model.attachNewNode(self._player_coll)
-        self._player_coll_path.show()
+        #self._player_coll_path.show()
         self._coll_trav.addCollider(self._player_coll_path, self._player_handler)
 
     def _setup_tasks(self):
@@ -93,6 +94,9 @@ class Enemy(DirectObject):
         taskMgr.add(self._move, "task-enemy-move")
 
     def _move(self, task):
+        #if self._is_moving == False:
+         #   self._is_moving=True
+          #  self._model.loop("enemove")
         et = task.time - self._prev_time
         rotation_rate = 100
         walk_rate = 25

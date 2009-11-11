@@ -44,8 +44,21 @@ class World(DirectObject):
         self.env.reparentTo(render)
         self.env.setPos(0, 0, 0)
         self.enemylist = []
-        for i in range(5):
-            self.enemylist.append(enemy.Enemy((0, 0, 100)))
+        # Tutorial Enemy
+        self.enemylist.append(enemy.Enemy((0, 0, 100)))
+        # Wave 1
+        self.enemylist.append(enemy.Enemy((-47.4, 123.6, 13.9)))
+        self.enemylist.append(enemy.Enemy((-30.6, 125.4, 16.4)))
+        # Wave 2
+        self.enemylist.append(enemy.Enemy((-176.6, 222.2, 25)))
+        self.enemylist.append(enemy.Enemy((-177.704, 232.321, 25)))
+        self.enemylist.append(enemy.Enemy((-175.9, 239.482, 28)))
+        # Wave 3
+        self.enemylist.append(enemy.Enemy((-333.3, 209.9, 35)))
+        self.enemylist.append(enemy.Enemy((-340.9, 216.5, 31)))
+        self.enemylist.append(enemy.Enemy((-346.6, 224.8, 35)))
+        self.enemylist.append(enemy.Enemy((-359.1, 215.4, 34)))
+        self.enemylist.append(enemy.Enemy((-355.9, 198.7, 36)))
 
         base.cTrav = CollisionTraverser()
         self.cHandler = CollisionHandlerEvent()

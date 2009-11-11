@@ -299,4 +299,5 @@ class Player(DirectObject):
         self._gnd_ray_cam.setOrigin(camera.getX(), camera.getY(), 20)
 
         self._prev_move_time = task.time
+        print self._model.getPos()
         return Task.cont
