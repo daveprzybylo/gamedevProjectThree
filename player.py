@@ -24,9 +24,8 @@ class Player(DirectObject):
         self._coll_dist_h = 3
         self._scale = .5
         self._fixed_camera = False
-        self.toggleSound = loader.loadSfx(os.path.join("sounds", "Headlight toggle.mp3"))
-        self.snowmobileSound = loader.loadSfx(os.path.join("sounds", "Snowmobile running.mp3"))
         self._load_models()
+        self._load_sounds()
         self._load_lights()
         self._configure_camera()
         self._setup_actions()
@@ -44,6 +43,10 @@ class Player(DirectObject):
         self.skybox = loader.loadModel(os.path.join('models','sky'))
         self.skybox.reparentTo(render)
         self.skybox.setPos(0,0,3)
+
+    def _load_sounds(self):
+        self._sound_toggle = loader.loadSfx(os.path.join("sounds", "Headlight toggle.mp3"))
+        self._sound_snowmobile = loader.loadSfx(os.path.join("sounds", "Snowmobile running.mp3"))
 
     def _load_lights(self):
         self._headlight = Spotlight('player-headlight')
@@ -84,11 +87,11 @@ class Player(DirectObject):
     def _toggle_headlight(self):
         if self._headlight_on:
             render.clearLight(self._headlight_path)
-            self.toggleSound.play()
+            self._sound_toggle.play()
             self._headlight_on = False
         else:
             render.setLight(self._headlight_path)
-            self.toggleSound.play()
+            self._sound_toggle.play()
             self._headlight_on = True
 
     def _toggle_camera(self):
@@ -209,12 +212,12 @@ class Player(DirectObject):
         pos_x -= self._keymap['reverse'] * dx
         pos_y -= self._keymap['reverse'] * dy
 
-        if self.snowmobileSound.status() == 1:
+        if self._sound_snowmobile.status() == 1:
             if self._keymap['forward'] == 1 or self._keymap['reverse'] == 1 or self._keymap['left'] == 1 or self._keymap['right'] == 1:
-                self.snowmobileSound.play()
-                self.snowmobileSound.setLoop(True)
-        if self.snowmobileSound.status() == 2 and self._keymap['forward'] == 0 and self._keymap['reverse'] == 0 and self._keymap['left'] == 0 and self._keymap['right'] == 0:
-                self.snowmobileSound.stop()
+                self._sound_snowmobile.play()
+                self._sound_snowmobile.setLoop(True)
+        if self._sound_snowmobile.status() == 2 and self._keymap['forward'] == 0 and self._keymap['reverse'] == 0 and self._keymap['left'] == 0 and self._keymap['right'] == 0:
+                self._sound_snowmobile.stop()
         # Save back to the model
         self._model.setH(rotation)
         self._model.setX(pos_x)
