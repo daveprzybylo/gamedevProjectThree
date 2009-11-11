@@ -92,3 +92,11 @@ class enemy(DirectObject):
         self.enemySightHandler = CollisionHandlerQueue()
         self.cTrav.addCollider(self.enemySightColNp, self.enemySightHandler)
 
+        self.playersphere= CollisionSphere(0,0,0,10)
+        self.playerColsphere = CollisionNode('enemySphere')
+        self.playerColsphere.addSolid(self.playersphere)
+        self.playerColsphere.setFromCollideMask(BitMask32.bit(0))
+        self.playerColsphere.setIntoCollideMask(BitMask32.bit(5))
+        self.playerColNPsphere = self.nmy.attachNewNode(self.playerColsphere)
+        self.playerColNPsphere.show()
+
