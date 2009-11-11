@@ -41,6 +41,9 @@ class Player(DirectObject):
         self._floater = NodePath(PandaNode("floater"))
         self._floater.reparentTo(render)
         self._floater.setPos(self._model.getPos())
+        self.skybox = loader.loadModel(os.path.join('models','sky'))
+        self.skybox.reparentTo(render)
+        self.skybox.setPos(0,0,3)
 
     def _load_lights(self):
         self._headlight = Spotlight('player-headlight')
@@ -53,7 +56,13 @@ class Player(DirectObject):
         self._headlight_path.setPos(0, 0, 0)
         self._headlight_path.setHpr(0, 0, 0)
         render.setLight(self._headlight_path)
+        self.skybox.setLightOff()
         self._headlight_on = True
+        
+        self.skylight = AmbientLight('skylight')
+        self.skylight.setColor((.5,.5,.5,1))
+        self.skylightpath = render.attachNewNode(self.skylight)
+        self.skybox.setLight(self.skylightpath)
 
     def _configure_camera(self):
         camera.reparentTo(self._floater)
@@ -166,11 +175,13 @@ class Player(DirectObject):
         self._keymap[key] = value
 
     def _task_move(self, task):
+        self.skybox.setLightOff()
+        self.skybox.setLight(self.skylightpath)
         et = task.time - self._prev_move_time
         rotation_rate = 100
         walk_rate = 50
-        cam_rate = .1
-        cam_turn = 1.3
+        cam_rate = .5
+        cam_turn = 10
         #cam_turn = 10
         # Get current values
         rotation = self._model.getH()

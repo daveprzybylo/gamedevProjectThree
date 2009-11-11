@@ -1,3 +1,5 @@
+from pandac.PandaModules import loadPrcFileData 
+loadPrcFileData( '', 'window-title Satan\'s Space Sanctuary' )
 import direct.directbase.DirectStart
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
@@ -8,8 +10,6 @@ from direct.gui.DirectGui import *
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
-from pandac.PandaModules import loadPrcFileData 
-loadPrcFileData( '', 'notify-level fatal' )
 
 import player
 import enemy
