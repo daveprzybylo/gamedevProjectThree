@@ -9,12 +9,11 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
-import random
-
-import sys
-import os
-
 import math
+import os
+import random
+import sys
+
 
 class enemy(DirectObject):
     def __init__(self, i, cTrav):
