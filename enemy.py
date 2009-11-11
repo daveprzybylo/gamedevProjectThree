@@ -23,7 +23,7 @@ class enemy(DirectObject):
         taskMgr.add(self._move, "enemy-task-move")
         self._setupCollisions()
     def _load_models(self,i):
-	self.nmy = Actor(os.path.join('models','enemy'), {'enemove' : os.path.join('models','enemy_walk')})
+        self.nmy = Actor(os.path.join('models','enemy'), {'enemove' : os.path.join('models','enemy_walk')})
 
         self.nmy.setScale(1)
         self.nmy.setPos(0, 0, 100)
@@ -63,7 +63,7 @@ class enemy(DirectObject):
             self.nmy.setPos(self.nmy.getX() + dx, self.nmy.getY() + dy, 0)
         self.startpos=self.nmy.getPos()
         entries=[]
-	for i in range(self.enemyGroundHandler.getNumEntries()):
+        for i in range(self.enemyGroundHandler.getNumEntries()):
             entry = self.enemyGroundHandler.getEntry(i)
             entries.append(entry)
             
@@ -131,4 +131,3 @@ class enemy(DirectObject):
         self.playerColsphere.setIntoCollideMask(BitMask32.bit(3))
         self.playerColNPsphere = self.nmy.attachNewNode(self.playerColsphere)
         #self.playerColNPsphere.show()
-
