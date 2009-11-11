@@ -78,6 +78,7 @@ class Enemy(DirectObject):
         #self._sight_coll_lo_path.show()
         self._coll_trav.addCollider(self._sight_coll_lo_path, self._sight_handler_lo)
         # Player collision
+        self._player_handler = CollisionHandlerQueue()
         self._player = CollisionSphere(0, 0, 0, 10)
         self._player_coll = CollisionNode('collision-with-player')
         self._player_coll.addSolid(self._player)
@@ -85,6 +86,7 @@ class Enemy(DirectObject):
         self._player_coll.setIntoCollideMask(BitMask32.bit(5))
         self._player_coll_path = self._model.attachNewNode(self._player_coll)
         self._player_coll_path.show()
+        self._coll_trav.addCollider(self._player_coll_path, self._player_handler)
 
     def _setup_tasks(self):
         self._prev_time = 0
