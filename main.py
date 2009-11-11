@@ -43,6 +43,7 @@ class World(DirectObject):
         self.enemylist = []
         self._wave_one()
         taskMgr.add(self._task_checkpoint, "world-task-checkpoint")
+        taskMgr.add(self.task_artifact_spin,'artifact_spin')
         
         base.cTrav = CollisionTraverser()
         self.cHandler = CollisionHandlerEvent()
@@ -60,6 +61,11 @@ class World(DirectObject):
         cNodePath = self.artifact.attachNewNode(cNode)
         #cNodePath.show()
         self.player._coll_trav.addCollider(cNodePath, self.cHandler)
+        
+        self.artifact_light = AmbientLight('artLight')
+        self.artifact_light.setColor((.4,.4,.4,1))
+        self.artifact_light_path = render.attachNewNode(self.artifact_light)
+        self.artifact.setLight(self.artifact_light_path)
         
 
     def _wave_one(self):
@@ -188,6 +194,10 @@ class World(DirectObject):
             self._wave_eight()
         if self.player._model.getZ() > 105  and self.wave==8:
             self._wave_nine()
+        return Task.cont
+    
+    def task_artifact_spin(self, task):
+        self.artifact.setH(self.artifact.getH() + 2)
         return Task.cont
 
 def start_game():
