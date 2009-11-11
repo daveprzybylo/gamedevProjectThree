@@ -69,7 +69,7 @@ class Enemy(DirectObject):
         self._coll_trav.addCollider(self._sight_coll_lo_path, self._sight_handler_lo)
         # Player collision
         self._player_handler = CollisionHandlerQueue()
-        self._player = CollisionSphere(0, 0, 0, 10)
+        self._player = CollisionSphere(0, 0, 0, 5)
         self._player_coll = CollisionNode('collision-with-player')
         self._player_coll.addSolid(self._player)
         self._player_coll.setFromCollideMask(BitMask32.bit(7))
