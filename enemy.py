@@ -34,11 +34,22 @@ class enemy(DirectObject):
         elapsed= task.time - self._prev_time
         foundpanda=0
         sightentries= []
-        for i in range(self.enemySightHandler.getNumEntries()):
-            entry=self.enemySightHandler.getEntry(i)
-            sightentries.append(entry)
-            if (sightentries[i].getIntoNode().getName()=="playerSphere"):
-                foundpanda=1
+
+        self.enemySightHandler.sortEntries()
+        self.enemySightHandlerlow.sortEntries()
+        self.enemySightHandlermid.sortEntries()
+        if self.enemySightHandler.getNumEntries()>0:
+            target=self.enemySightHandler.getEntry(0).getIntoNode().getName()
+            if (target=="playerSphere"):
+               foundpanda=1
+        if self.enemySightHandlerlow.getNumEntries()>0:
+            target=self.enemySightHandlerlow.getEntry(0).getIntoNode().getName()
+            if (target=="playerSphere"):
+               foundpanda=1
+        if self.enemySightHandlermid.getNumEntries()>0:
+            target=self.enemySightHandlermid.getEntry(0).getIntoNode().getName()
+            if (target=="playerSphere"):
+               foundpanda=1
 
 
         if(foundpanda==0):
@@ -82,7 +93,7 @@ class enemy(DirectObject):
         
         self.enemySightRay= CollisionRay()
         self.enemySightRay.setOrigin(-2,0,1)
-        self.enemySightRay.setDirection(0,-1,0)
+        self.enemySightRay.setDirection(0,-1,.075)
         self.enemySightCol = CollisionNode('enemysightRay')
         self.enemySightCol.addSolid(self.enemySightRay)
         self.enemySightCol.setFromCollideMask(BitMask32.bit(5))
@@ -91,12 +102,34 @@ class enemy(DirectObject):
         #self.enemySightColNp.show()
         self.enemySightHandler = CollisionHandlerQueue()
         self.cTrav.addCollider(self.enemySightColNp, self.enemySightHandler)
+        self.enemySightRaylow= CollisionRay()
+        self.enemySightRaylow.setOrigin(-2,0,1)
+        self.enemySightRaylow.setDirection(0,-1,-.075)
+        self.enemySightCollow = CollisionNode('enemysightRaylow')
+        self.enemySightCollow.addSolid(self.enemySightRaylow)
+        self.enemySightCollow.setFromCollideMask(BitMask32.bit(5))
+        self.enemySightCollow.setIntoCollideMask(BitMask32.allOff())
+        self.enemySightColNplow = self.nmy.attachNewNode(self.enemySightCollow)
+        #self.enemySightColNplow.show()
+        self.enemySightHandlerlow = CollisionHandlerQueue()
+        self.cTrav.addCollider(self.enemySightColNplow, self.enemySightHandlerlow)
+        self.enemySightRaymid= CollisionRay()
+        self.enemySightRaymid.setOrigin(-2,0,1)
+        self.enemySightRaymid.setDirection(0,-1,0)
+        self.enemySightColmid = CollisionNode('enemysightRaymid')
+        self.enemySightColmid.addSolid(self.enemySightRaymid)
+        self.enemySightColmid.setFromCollideMask(BitMask32.bit(5))
+        self.enemySightColmid.setIntoCollideMask(BitMask32.allOff())
+        self.enemySightColNpmid = self.nmy.attachNewNode(self.enemySightColmid)
+        #self.enemySightColNpmid.show()
+        self.enemySightHandlermid = CollisionHandlerQueue()
+        self.cTrav.addCollider(self.enemySightColNpmid, self.enemySightHandlermid)
 
         self.playersphere= CollisionSphere(0,0,0,10)
         self.playerColsphere = CollisionNode('enemySphere')
         self.playerColsphere.addSolid(self.playersphere)
         self.playerColsphere.setFromCollideMask(BitMask32.bit(0))
-        self.playerColsphere.setIntoCollideMask(BitMask32.bit(5))
+        self.playerColsphere.setIntoCollideMask(BitMask32.bit(3))
         self.playerColNPsphere = self.nmy.attachNewNode(self.playerColsphere)
-        self.playerColNPsphere.show()
+        #self.playerColNPsphere.show()
 
