@@ -5,7 +5,8 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
-import math, os
+import math
+import os
 
 
 class Player(DirectObject):
@@ -16,8 +17,7 @@ class Player(DirectObject):
                 'right'   : 0,
                 'left'    : 0,
         }
-        #self._camera_pos = (0, -75, 20)
-        self._camera_pos = (0,-40,5)
+        self._camera_pos = (0, -40, 5)
         self._cam_min_dist = 10
         self._dir = 0
         self._coll_dist = 10
@@ -191,7 +191,6 @@ class Player(DirectObject):
         walk_rate = 50
         cam_rate = .5
         cam_turn = 10
-        #cam_turn = 10
         # Get current values
         rotation = self._model.getH()
         pos_x = self._model.getX()
@@ -209,7 +208,7 @@ class Player(DirectObject):
         pos_y += self._keymap['forward'] * dy
         pos_x -= self._keymap['reverse'] * dx
         pos_y -= self._keymap['reverse'] * dy
-        
+
         if self.snowmobileSound.status() == 1:
             if self._keymap['forward'] == 1 or self._keymap['reverse'] == 1 or self._keymap['left'] == 1 or self._keymap['right'] == 1:
                 self.snowmobileSound.play()
