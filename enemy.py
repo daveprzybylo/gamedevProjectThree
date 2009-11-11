@@ -16,15 +16,15 @@ import sys
 
 
 class Enemy(DirectObject):
-    def __init__(self, i):
-        self._load_models()
+    def __init__(self, pos):
+        self._load_models(pos)
         self._setup_collisions()
         self._setup_tasks()
 
-    def _load_models(self):
+    def _load_models(self, pos):
         self._model = Actor(os.path.join('models', 'enemy'),
                 {'enemove' : os.path.join('models', 'enemy_walk')})
-        self._model.setPos(0, 0, 100)
+        self._model.setPos(pos[0], pos[1], pos[2])
         self._model.reparentTo(render)
 
     def _setup_collisions(self):
