@@ -39,7 +39,7 @@ class World(DirectObject):
         self.env.setPos(0, 0, 0)
         self.enemylist=[]
         for i in range(5):
-            newenemy= enemy.enemy(i, self.player._coll_trav)
+            newenemy= enemy.enemy(0,0,100, self.player._coll_trav)
             self.enemylist.append(enemy)
 
     def _setup_lights(self):
