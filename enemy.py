@@ -132,7 +132,7 @@ class Enemy(DirectObject):
 
         entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
                                       x.getSurfacePoint(render).getZ()))
-        if len(entries) > 0 and entries[0].getIntoNode().getName().find('terrain') != -1:
+        if entries and entries[0].getIntoNode().getName().find('terrain') != -1:
             self._model.setZ(entries[0].getSurfacePoint(render).getZ() + .2)
         else:
             self._model.setPos(self.pos)
