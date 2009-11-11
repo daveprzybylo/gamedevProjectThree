@@ -38,7 +38,7 @@ class World(DirectObject):
 
     def _setup_lights(self):
         ambient = AmbientLight("light-ambient")
-        ambient.setColor((.25, .25, .25, 1))
+        ambient.setColor((.13, .13, .13, 1))
         ambient_path = render.attachNewNode(ambient)
         render.setLight(ambient_path)
 

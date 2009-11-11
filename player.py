@@ -216,7 +216,6 @@ class Player(DirectObject):
         entries_left.sort(srt)
         entries_right.sort(srt)
         if entries_all:
-            print entries_front[0].getIntoNode().getName(),entries_back[0].getIntoNode().getName(),entries_left[0].getIntoNode().getName(),entries_right[0].getIntoNode().getName()
             is_valid = lambda x: x and x[0].getIntoNode().getName().find('terrain') != -1
             if is_valid(entries_front) and is_valid(entries_back) and is_valid(entries_left) and is_valid(entries_right):
                 f = entries_front[0].getSurfacePoint(render).getZ()
