@@ -37,7 +37,6 @@ class World(DirectObject):
             self.artifact_count += 1
 
     def _setup_models(self):
-            def _setup_models(self):
         self.player = player.Player()
         self.env = loader.loadModel(os.path.join("models", "environment"))
         self.env.reparentTo(render)
