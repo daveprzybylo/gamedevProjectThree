@@ -17,12 +17,12 @@ class Player(DirectObject):
                 'left'    : 0,
         }
         #self._camera_pos = (0, -75, 20)
-        self._camera_pos = (0,-10,2)
-        self._cam_min_dist = 2
+        self._camera_pos = (0,-50,9)
+        self._cam_min_dist = 10
         self._dir = 0
         self._coll_dist = 10
         self._coll_dist_h = 3
-        self._scale = .1
+        self._scale = .5
         self._fixed_camera = False
         self.toggleSound = loader.loadSfx(os.path.join("sounds", "Headlight toggle.mp3"))
         self.snowmobileSound = loader.loadSfx(os.path.join("sounds", "Snowmobile running.mp3"))
@@ -161,7 +161,7 @@ class Player(DirectObject):
     def _task_move(self, task):
         et = task.time - self._prev_move_time
         rotation_rate = 100
-        walk_rate = 10
+        walk_rate = 50
         cam_rate = .1
         cam_turn = 1.3
         #cam_turn = 10
@@ -216,6 +216,7 @@ class Player(DirectObject):
         entries_left.sort(srt)
         entries_right.sort(srt)
         if entries_all:
+            print entries_front[0].getIntoNode().getName(),entries_back[0].getIntoNode().getName(),entries_left[0].getIntoNode().getName(),entries_right[0].getIntoNode().getName()
             is_valid = lambda x: x and x[0].getIntoNode().getName().find('terrain') != -1
             if is_valid(entries_front) and is_valid(entries_back) and is_valid(entries_left) and is_valid(entries_right):
                 f = entries_front[0].getSurfacePoint(render).getZ()
@@ -223,9 +224,12 @@ class Player(DirectObject):
                 l = entries_left[0].getSurfacePoint(render).getZ()
                 r = entries_right[0].getSurfacePoint(render).getZ()
                 z = (f + b) / 2
-                self._model.setZ(z)
-                self._model.setP(rad2Deg(math.atan2(f - z, self._coll_dist * self._scale)))
-                self._model.setR(rad2Deg(math.atan2(l - z, self._coll_dist_h * self._scale)))
+                if abs(z - self._model.getZ()) > 5:
+                    self._model.setPos(pos)
+                else:
+                    self._model.setZ(z)
+                    self._model.setP(rad2Deg(math.atan2(f - z, self._coll_dist * self._scale)))
+                    self._model.setR(rad2Deg(math.atan2(l - z, self._coll_dist_h * self._scale)))
             else:
                 self._model.setPos(pos)
         self._floater.setPos(self._model.getPos())
