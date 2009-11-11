@@ -26,7 +26,7 @@ class enemy(DirectObject):
     def _load_models(self,i):
 	self.nmy = Actor(os.path.join('models','enemy'), {'enemove' : os.path.join('models','enemy_walk')})
 
-        self.nmy.setScale(.25)
+        self.nmy.setScale(1)
         self.nmy.setPos(0, 0, 100)
         self.nmy.reparentTo(render)
         self.pos=self.nmy.getPos()
@@ -47,7 +47,7 @@ class enemy(DirectObject):
         else:
             
             angle = deg2Rad(self.nmy.getH())
-            dist = .05
+            dist = .5
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
             self.nmy.setPos(self.nmy.getX() + dx, self.nmy.getY() + dy, 0)
@@ -60,7 +60,7 @@ class enemy(DirectObject):
             
         entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
                                      x.getSurfacePoint(render).getZ()))
-        if (len(entries)>0) and (entries[0].getIntoNode().getName() == "terrain_ground"):
+        if (len(entries)>0) and (entries[0].getIntoNode().getName().find('terrain') != -1):
             self.nmy.setZ(entries[0].getSurfacePoint(render).getZ()+.2)
         else:
             self.nmy.setPos(self.startpos)
