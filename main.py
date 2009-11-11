@@ -93,7 +93,7 @@ if __name__ == '__main__':
                      command=sys.exit, text_fg=(0, 0, 0, 1), scale=.1,
                      pos=(0, 0, -.62), relief=None)
     d.setTransparency(1)
-    c = OnscreenImage(parent=render2d, image=os.path.join("models","background.png"))
+    c = OnscreenImage(parent=render2d, image=os.path.join("models", "background.png"))
     sound_ambient = loader.loadSfx(os.path.join("sounds", "Ambient wind.mp3"))
     sound_ambient.play()
     sound_ambient.setLoop(True)
