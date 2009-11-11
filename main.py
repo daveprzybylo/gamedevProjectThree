@@ -49,18 +49,18 @@ def start_game():
 
 
 if __name__ == '__main__':
-    bk_text = "Game Menu"
+    bk_text = "Temple of Satan"
     font = loader.loadFont(os.path.join("fonts","arial.ttf"))
     font.setPixelsPerUnit(200)
-    textObject = OnscreenText(text=bk_text, font=font, pos=(0, 0, .5),
+    textObject = OnscreenText(text=bk_text, font=font, pos = (0, 0.7),
                               scale=0.2, fg=(1, 1, 1, 1),
-                              align=TextNode.ACenter, mayChange=1)
+                              mayChange=0)
     b = DirectButton(text="Start Game", text_font=font, clickSound=None,
-                     command=start_game, text_fg=(1, 1, 1, 1), scale=.1,
+                     command=start_game, text_fg=(0, 0, 0, 1), scale=.1,
                      pos=(0, 0, -.5), relief=None)
     b.setTransparency(1)
     d = DirectButton(text="Quit", text_font=font, clickSound=None,
-                     command=sys.exit, text_fg=(1, 1, 1, 1), scale=.1,
+                     command=sys.exit, text_fg=(0, 0, 0, 1), scale=.1,
                      pos=(0, 0, -.62), relief=None)
     d.setTransparency(1)
     c = OnscreenImage(parent=render2d, image=os.path.join("models","background.png"))
