@@ -206,7 +206,7 @@ class Player(DirectObject):
         entries_left.sort(srt)
         entries_right.sort(srt)
         if entries_all:
-            is_valid = lambda x: x and x[0].getIntoNode().getName() == "terrain"
+            is_valid = lambda x: x and x[0].getIntoNode().getName().find('terrain') != -1
             if is_valid(entries_front) and is_valid(entries_back) and is_valid(entries_left) and is_valid(entries_right):
                 f = entries_front[0].getSurfacePoint(render).getZ()
                 b = entries_back[0].getSurfacePoint(render).getZ()
@@ -224,7 +224,7 @@ class Player(DirectObject):
         entries_cam = []
         for i in range(self._gnd_handler_cam.getNumEntries()):
             entries_cam.append(self._gnd_handler_cam.getEntry(i))
-        entries_cam = filter(lambda x: x.getIntoNode().getName() == "terrain", entries_cam)
+        entries_cam = filter(lambda x: x.getIntoNode().getName().find('terrain') != -1, entries_cam)
         entries_cam.sort(srt)
         cam_z = self._camera_pos[2]
         if entries_cam and self._fixed_camera:

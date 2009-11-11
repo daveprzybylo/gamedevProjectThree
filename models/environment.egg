@@ -9148,6 +9148,7 @@
     }
   }
   <Group> terrain_ground {
+    <Collide> { Polyset keep descend }
     <VertexPool> terrain_groundShape.verts {
       <Vertex> 0 {
         185.67 -36.0464 -117.378
@@ -9992,6 +9993,7 @@
     }
   }
   <Group> terrain_ramp {
+    <Collide> { Polyset keep descend }
     <VertexPool> terrain_rampShape.verts {
       <Vertex> 0 {
         -13.985 6.86732 -7.61601
