@@ -24,7 +24,8 @@ class Player(DirectObject):
         self._coll_dist_h = 3
         self._scale = .1
         self._fixed_camera = False
-
+        self.toggleSound = loader.loadSfx(os.path.join("sounds", "Headlight toggle.mp3"))
+        self.snowmobileSound = loader.loadSfx(os.path.join("sounds", "Snowmobile running.mp3"))
         self._load_models()
         self._load_lights()
         self._configure_camera()
@@ -74,9 +75,11 @@ class Player(DirectObject):
     def _toggle_headlight(self):
         if self._headlight_on:
             render.clearLight(self._headlight_path)
+            self.toggleSound.play()
             self._headlight_on = False
         else:
             render.setLight(self._headlight_path)
+            self.toggleSound.play()
             self._headlight_on = True
 
     def _toggle_camera(self):
@@ -179,6 +182,13 @@ class Player(DirectObject):
         pos_y += self._keymap['forward'] * dy
         pos_x -= self._keymap['reverse'] * dx
         pos_y -= self._keymap['reverse'] * dy
+        
+        if self.snowmobileSound.status() == 1:
+            if self._keymap['forward'] == 1 or self._keymap['reverse'] == 1 or self._keymap['left'] == 1 or self._keymap['right'] == 1:
+                self.snowmobileSound.play()
+                self.snowmobileSound.setLoop(True)
+        if self.snowmobileSound.status() == 2 and self._keymap['forward'] == 0 and self._keymap['reverse'] == 0 and self._keymap['left'] == 0 and self._keymap['right'] == 0:
+                self.snowmobileSound.stop()
         # Save back to the model
         self._model.setH(rotation)
         self._model.setX(pos_x)
