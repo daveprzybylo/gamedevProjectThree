@@ -192,8 +192,8 @@ class Player(DirectObject):
         self._inner_sphere = CollisionSphere(0, 0, 0, 10)
         self._coll_inner_sphere = CollisionNode('collision-player-sphere-inner')
         self._coll_inner_sphere.addSolid(self._inner_sphere)
-        self._coll_inner_sphere.setFromCollideMask(BitMask32.bit(0))
-        self._coll_inner_sphere.setIntoCollideMask(BitMask32.bit(5))
+        self._coll_inner_sphere.setFromCollideMask(BitMask32.bit(7))
+        self._coll_inner_sphere.setIntoCollideMask(BitMask32.bit(7))
         self._coll_inner_sphere_path = self._model.attachNewNode(self._coll_inner_sphere)
         #self._coll_inner_sphere_path.show()
         self._coll_trav.addCollider(self._coll_inner_sphere_path, self._inner_sphere_handler)
@@ -202,6 +202,9 @@ class Player(DirectObject):
         self._keymap[key] = value
 
     def _task_move(self, task):
+        for i in range(self._inner_sphere_handler.getNumEntries()):
+            if self._inner_sphere_handler.getEntry(i).getIntoNode().getName()=='collision-with-player':
+                self.health -= .5
         et = task.time - self._prev_move_time
         rotation_rate = 100
         walk_rate = 50

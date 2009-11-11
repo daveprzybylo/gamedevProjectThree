@@ -72,7 +72,7 @@ class Enemy(DirectObject):
         self._player = CollisionSphere(0, 0, 0, 10)
         self._player_coll = CollisionNode('collision-with-player')
         self._player_coll.addSolid(self._player)
-        self._player_coll.setFromCollideMask(BitMask32.bit(0))
+        self._player_coll.setFromCollideMask(BitMask32.bit(7))
         self._player_coll.setIntoCollideMask(BitMask32.bit(7))
         self._player_coll_path = self._model.attachNewNode(self._player_coll)
         #self._player_coll_path.show()
@@ -116,6 +116,7 @@ class Enemy(DirectObject):
             self.pos = self._model.getPos()
 
             entries = []
+
             for i in range(self._ground_handler.getNumEntries()):
                 entries.append(self._ground_handler.getEntry(i))
 
