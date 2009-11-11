@@ -61,7 +61,7 @@ if __name__ == '__main__':
     font = loader.loadFont(os.path.join("fonts","arial.ttf"))
     font.setPixelsPerUnit(200)
     textObject = OnscreenText(text=bk_text, font=font, pos = (0, 0.7),
-                              scale=0.2, fg=(1, 1, 1, 1),
+                              scale=0.2, fg=(1, 0, 0, 1),
                               mayChange=0)
     b = DirectButton(text="Start Game", text_font=font, clickSound=None,
                      command=start_game, text_fg=(0, 0, 0, 1), scale=.1,
