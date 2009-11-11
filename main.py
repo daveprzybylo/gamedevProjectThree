@@ -1,4 +1,4 @@
-from pandac.PandaModules import loadPrcFileData 
+from pandac.PandaModules import loadPrcFileData
 loadPrcFileData('', 'window-title Satan\'s Space Sanctuary')
 loadPrcFileData('', 'notify-level fatal')
 import direct.directbase.DirectStart
@@ -6,7 +6,7 @@ from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.OnscreenText import OnscreenText
 from direct.gui.OnscreenImage import OnscreenImage
-from pandac.PandaModules import * 
+from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
@@ -63,17 +63,17 @@ class World(DirectObject):
         base.cTrav = CollisionTraverser()
         self.cHandler = CollisionHandlerEvent()
         self.cHandler.setInPattern("artifact_gotten")
-        
+
         self.artifact = loader.loadModel('panda')
         self.artifact.setScale(.5)
         self.artifact.setPos(-290,9,275)
         self.artifact.reparentTo(render)
-        
+
         cSphere = CollisionSphere(0,0,0,10)
         cNode = CollisionNode("artifact")
         cNode.addSolid(cSphere)
         cNode.setIntoCollideMask(BitMask32.bit(3))
-        
+
         cNodePath = self.artifact.attachNewNode(cNode)
         base.cTrav.addCollider(cNodePath, self.cHandler)
 
