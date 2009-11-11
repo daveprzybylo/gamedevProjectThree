@@ -82,9 +82,6 @@ class Enemy(DirectObject):
         taskMgr.add(self._move, "task-enemy-move")
 
     def _move(self, task):
-        #if self._is_moving == False:
-        #   self._is_moving=True
-        #  self._model.loop("enemove")
         et = task.time - self._prev_time
         rotation_rate = 100
         walk_rate = 25
@@ -106,8 +103,10 @@ class Enemy(DirectObject):
             dy = et * walk_rate * -math.cos(rotation_rad)
             pos_x += dx
             pos_y += dy
+            self._model.loop("enemove")
         else:
             rotation += et * rotation_rate
+            self._model.stop()
 
         # Save back to the model
         self._model.setH(rotation)
