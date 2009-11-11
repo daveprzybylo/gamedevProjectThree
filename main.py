@@ -30,7 +30,7 @@ class World(DirectObject):
         self._setup_actions()
         self.artifact_count = 0
 
-    def got_artifact(self,cEntry):
+    def got_artifact(self, cEntry):
         if self.artifact_count > 1:
             print 'You got Satans artifact, yay!'
         else:
