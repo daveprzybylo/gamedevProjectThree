@@ -42,18 +42,6 @@ class Enemy(DirectObject):
         self._ground_coll_path = self._model.attachNewNode(self._ground_coll)
         #self._ground_coll_path.show()
         self._coll_trav.addCollider(self._ground_coll_path, self._ground_handler)
-        # Sight collision
-        self._sight_handler = CollisionHandlerQueue()
-        self._sight_ray = CollisionRay()
-        self._sight_ray.setOrigin(-2, 0, 1)
-        self._sight_ray.setDirection(0, -1, 0)
-        self._sight_coll = CollisionNode('collision-sight')
-        self._sight_coll.addSolid(self._sight_ray)
-        self._sight_coll.setFromCollideMask(BitMask32.bit(5))
-        self._sight_coll.setIntoCollideMask(BitMask32.allOff())
-        self._sight_coll_path = self._model.attachNewNode(self._sight_coll)
-        #self._sight_coll_path.show()
-        self._coll_trav.addCollider(self._sight_coll_path, self._sight_handler)
         # Sight collision (High)
         self._sight_handler_hi = CollisionHandlerQueue()
         self._sight_ray_hi = CollisionRay()
@@ -109,11 +97,9 @@ class Enemy(DirectObject):
 
         self._coll_trav.traverse(render)
 
-        self._sight_handler.sortEntries()
         self._sight_handler_hi.sortEntries()
         self._sight_handler_lo.sortEntries()
-        if self._sight_handler.getNumEntries() and self._sight_handler.getEntry(0).getIntoNode().getName() == 'collision-player-sphere' or \
-            self._sight_handler_hi.getNumEntries() and self._sight_handler_hi.getEntry(0).getIntoNode().getName() == 'collision-player-sphere' or \
+        if self._sight_handler_hi.getNumEntries() and self._sight_handler_hi.getEntry(0).getIntoNode().getName() == 'collision-player-sphere' or \
             self._sight_handler_lo.getNumEntries() and self._sight_handler_lo.getEntry(0).getIntoNode().getName() == 'collision-player-sphere':
             rotation_rad = deg2Rad(rotation)
             dx = et * walk_rate * math.sin(rotation_rad)
