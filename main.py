@@ -94,7 +94,7 @@ if __name__ == '__main__':
                      pos=(0, 0, -.62), relief=None)
     d.setTransparency(1)
     c = OnscreenImage(parent=render2d, image=os.path.join("models", "background.png"))
-    sound_ambient = loader.loadSfx(os.path.join("sounds", "Ambient wind.mp3"))
+    sound_ambient = loader.loadSfx(os.path.join("sounds", "ambient-wind.mp3"))
     sound_ambient.play()
     sound_ambient.setLoop(True)
 

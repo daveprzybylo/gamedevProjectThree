@@ -45,8 +45,8 @@ class Player(DirectObject):
         self._skybox.setPos(0,0,3)
 
     def _load_sounds(self):
-        self._sound_toggle = loader.loadSfx(os.path.join("sounds", "Headlight toggle.mp3"))
-        self._sound_snowmobile = loader.loadSfx(os.path.join("sounds", "Snowmobile running.mp3"))
+        self._sound_toggle = loader.loadSfx(os.path.join("sounds", "headlight-toggle.mp3"))
+        self._sound_snowmobile = loader.loadSfx(os.path.join("sounds", "snowmobile-running.mp3"))
 
     def _load_lights(self):
         self._headlight = Spotlight('player-headlight')
