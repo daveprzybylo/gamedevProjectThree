@@ -3,7 +3,7 @@ from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.OnscreenText import OnscreenText
 from direct.gui.OnscreenImage import OnscreenImage
-from pandac.PandaModules import * 
+from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
@@ -52,10 +52,9 @@ class enemy(DirectObject):
 
 
         if(foundpanda==0):
-            self.nmy.setH(self.nmy.getH() + 5) 
-                  
+            self.nmy.setH(self.nmy.getH() + 5)
         else:
-            
+
             angle = deg2Rad(self.nmy.getH())
             dist = .5
             dx = dist * math.sin(angle)
@@ -66,8 +65,7 @@ class enemy(DirectObject):
         for i in range(self.enemyGroundHandler.getNumEntries()):
             entry = self.enemyGroundHandler.getEntry(i)
             entries.append(entry)
-            
-            
+
         entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
                                      x.getSurfacePoint(render).getZ()))
         if (len(entries)>0) and (entries[0].getIntoNode().getName().find('terrain') != -1):
@@ -77,7 +75,6 @@ class enemy(DirectObject):
         return task.cont
 
     def _setupCollisions(self):
-        
         self.enemyGroundRay = CollisionRay()
         self.enemyGroundRay.setOrigin(0,0,1)
         self.enemyGroundRay.setDirection(0,0,-1)
@@ -89,7 +86,7 @@ class enemy(DirectObject):
         #self.enemyGroundColNp.show()
         self.enemyGroundHandler = CollisionHandlerQueue()
         self.cTrav.addCollider(self.enemyGroundColNp, self.enemyGroundHandler)
-        
+
         self.enemySightRay= CollisionRay()
         self.enemySightRay.setOrigin(-2,0,1)
         self.enemySightRay.setDirection(0,-1,.075)
