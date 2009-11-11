@@ -311,5 +311,9 @@ class Player(DirectObject):
         self._gnd_ray_cam.setOrigin(camera.getX(), camera.getY(), 20)
 
         self._prev_move_time = task.time
-        self.textObject.setText(self.bk_text+str(self.health))
+        if self.health > 0:
+            self.textObject.setText(self.bk_text+str(self.health))
+        if self.health <= 0:
+             c = OnscreenImage(parent=render2d, image=os.path.join("models", "titlescreen.png"))
+             self.textObject.destroy()
         return Task.cont
