@@ -95,7 +95,7 @@ class Enemy(DirectObject):
     def _move(self, task):
         et = task.time - self._prev_time
         rotation_rate = 100
-        walk_rate = 50
+        walk_rate = 25
 
         # Get current values
         rotation = self._model.getH()
