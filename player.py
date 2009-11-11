@@ -154,6 +154,13 @@ class Player(DirectObject):
         self._gnd_coll_path_cam = self._floater.attachNewNode(self._gnd_coll_cam)
         #self._gnd_coll_path_cam.show()
         self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler_cam)
+        self.playersphere= CollisionSphere(0,0,0,10)
+        self.playerColsphere = CollisionNode('playerSphere')
+        self.playerColsphere.addSolid(self.playersphere)
+        self.playerColsphere.setFromCollideMask(BitMask32.bit(0))
+        self.playerColsphere.setIntoCollideMask(BitMask32.bit(5))
+        self.playerColNPsphere = self._model.attachNewNode(self.playerColsphere)
+        #self.playerColNPsphere.show()
 
     def _set_key(self, key, value):
         self._keymap[key] = value

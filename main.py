@@ -12,6 +12,7 @@ from pandac.PandaModules import loadPrcFileData
 loadPrcFileData( '', 'notify-level fatal' )
 
 import player
+import enemy
 
 import sys
 import os
@@ -34,7 +35,10 @@ class World(DirectObject):
         self.player = player.Player()
         self.env = loader.loadModel(os.path.join("models","environment"))
         self.env.reparentTo(render)
-        self.env.setPos(0, 0, 3)
+        self.env.setPos(0, 0, 0)
+        for i in range(5):
+            newenemy= enemy.enemy(i, self.player._coll_trav)
+            self.enemylist.append(enemy)
 
     def _setup_lights(self):
         ambient = AmbientLight("light-ambient")
