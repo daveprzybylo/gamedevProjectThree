@@ -168,23 +168,26 @@ class Player(DirectObject):
         self._gnd_coll_path_cam = self._floater.attachNewNode(self._gnd_coll_cam)
         #self._gnd_coll_path_cam.show()
         self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler_cam)
-        # Player -- Enemy collision
-        self.playersphere= CollisionSphere(0, 0, 0, 10)
-        self.playerColsphere = CollisionNode('playerSphere')
-        self.playerColsphere.addSolid(self.playersphere)
-        self.playerColsphere.setFromCollideMask(BitMask32.bit(0))
-        self.playerColsphere.setIntoCollideMask(BitMask32.bit(5))
-        self.playerColNPsphere = self._model.attachNewNode(self.playerColsphere)
-        #self.playerColNPsphere.show()
-        self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler_cam)
-        self.playerspherein= CollisionSphere(0,0,0,5)
-        self.playerColspherein = CollisionNode('playerSphere')
-        self.playerColspherein.addSolid(self.playerspherein)
-        self.playerColspherein.setFromCollideMask(BitMask32.bit(0))
-        self.playerColspherein.setIntoCollideMask(BitMask32.bit(5))
-        self.playerColNPspherein = self._model.attachNewNode(self.playerColspherein)
-        self.playerColNPspherein.show()
-        
+        # Enemy sight target
+        self._sphere_handler = CollisionHandlerQueue()
+        self._sphere = CollisionSphere(0, 0, 0, 10)
+        self._coll_sphere = CollisionNode('collision-player-sphere')
+        self._coll_sphere.addSolid(self._sphere)
+        self._coll_sphere.setFromCollideMask(BitMask32.bit(0))
+        self._coll_sphere.setIntoCollideMask(BitMask32.bit(5))
+        self._coll_sphere_path = self._model.attachNewNode(self._coll_sphere)
+        #self._coll_sphere_path.show()
+        self._coll_trav.addCollider(self._coll_sphere_path, self._sphere_handler)
+        # Inner sphere collision
+        self._inner_sphere_handler = CollisionHandlerQueue()
+        self._inner_sphere = CollisionSphere(0, 0, 0, 10)
+        self._coll_inner_sphere = CollisionNode('collision-player-sphere-inner')
+        self._coll_inner_sphere.addSolid(self._inner_sphere)
+        self._coll_inner_sphere.setFromCollideMask(BitMask32.bit(0))
+        self._coll_inner_sphere.setIntoCollideMask(BitMask32.bit(5))
+        self._coll_inner_sphere_path = self._model.attachNewNode(self._coll_inner_sphere)
+        #self._coll_inner_sphere_path.show()
+        self._coll_trav.addCollider(self._coll_inner_sphere_path, self._inner_sphere_handler)
 
     def _set_key(self, key, value):
         self._keymap[key] = value

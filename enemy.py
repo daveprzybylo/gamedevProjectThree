@@ -108,9 +108,9 @@ class Enemy(DirectObject):
         self._sight_handler.sortEntries()
         self._sight_handler_hi.sortEntries()
         self._sight_handler_lo.sortEntries()
-        if self._sight_handler.getNumEntries() and self._sight_handler.getEntry(0).getIntoNode().getName() == 'coll-player' or \
-            self._sight_handler_hi.getNumEntries() and self._sight_handler_hi.getEntry(0).getIntoNode().getName() == 'coll-player' or \
-            self._sight_handler_lo.getNumEntries() and self._sight_handler_lo.getEntry(0).getIntoNode().getName() == 'coll-player':
+        if self._sight_handler.getNumEntries() and self._sight_handler.getEntry(0).getIntoNode().getName() == 'collision-player-sphere' or \
+            self._sight_handler_hi.getNumEntries() and self._sight_handler_hi.getEntry(0).getIntoNode().getName() == 'collision-player-sphere' or \
+            self._sight_handler_lo.getNumEntries() and self._sight_handler_lo.getEntry(0).getIntoNode().getName() == 'collision-player-sphere':
             rotation_rad = deg2Rad(rotation)
             dx = et * walk_rate * math.sin(rotation_rad)
             dy = et * walk_rate * -math.cos(rotation_rad)
