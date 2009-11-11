@@ -83,6 +83,9 @@ class Enemy(DirectObject):
         taskMgr.add(self._move, "task-enemy-move")
 
     def _move(self, task):
+        if self._is_moving==False:
+            self._is_moving==True
+            self._model.loop('enemove')
         if self.dead==False:
             et = task.time - self._prev_time
             rotation_rate = 100
