@@ -61,7 +61,7 @@ class Player(DirectObject):
         render.setLight(self._headlight_path)
         self._skybox.setLightOff()
         self._headlight_on = True
-        
+
         self._skylight = AmbientLight('skylight')
         self._skylight.setColor((.5,.5,.5,1))
         self._skylight_path = render.attachNewNode(self._skylight)
@@ -168,7 +168,8 @@ class Player(DirectObject):
         self._gnd_coll_path_cam = self._floater.attachNewNode(self._gnd_coll_cam)
         #self._gnd_coll_path_cam.show()
         self._coll_trav.addCollider(self._gnd_coll_path_cam, self._gnd_handler_cam)
-        self.playersphere= CollisionSphere(0,0,0,10)
+        # Player -- Enemy collision
+        self.playersphere= CollisionSphere(0, 0, 0, 10)
         self.playerColsphere = CollisionNode('playerSphere')
         self.playerColsphere.addSolid(self.playersphere)
         self.playerColsphere.setFromCollideMask(BitMask32.bit(0))

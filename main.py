@@ -1,6 +1,6 @@
 from pandac.PandaModules import loadPrcFileData 
-loadPrcFileData( '', 'window-title Satan\'s Space Sanctuary' )
-loadPrcFileData( '', 'notify-level fatal')
+loadPrcFileData('', 'window-title Satan\'s Space Sanctuary')
+loadPrcFileData('', 'notify-level fatal')
 import direct.directbase.DirectStart
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
@@ -40,7 +40,7 @@ class World(DirectObject):
 
     def _setup_models(self):
         self.player = player.Player()
-        self.env = loader.loadModel(os.path.join("models","environment"))
+        self.env = loader.loadModel(os.path.join("models", "environment"))
         self.env.reparentTo(render)
         self.env.setPos(0, 0, 0)
         self.enemylist=[]
