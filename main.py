@@ -71,6 +71,12 @@ class World(DirectObject):
         self.artifact.setLight(self.artifact_light_path)
 
 
+    def _clear_enemies(self):
+        for i in self.enemylist:
+            i._model.delete()
+            i.dead = True
+        self.enemylist = []
+
     def _wave_one(self):
         self.wave=1
 
@@ -82,10 +88,7 @@ class World(DirectObject):
     def _wave_two(self):
         print "1"
         self.wave=2
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         # Wave 2
         self.enemylist.append(enemy.Enemy((-176.6, 222.2, 25)))
         self.enemylist.append(enemy.Enemy((-177.704, 232.321, 25)))
@@ -93,10 +96,7 @@ class World(DirectObject):
     def _wave_three(self):
         print "2"
         self.wave=3
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         # Wave 3
         self.enemylist.append(enemy.Enemy((-333.3, 209.9, 35)))
         self.enemylist.append(enemy.Enemy((-340.9, 216.5, 31)))
@@ -106,10 +106,7 @@ class World(DirectObject):
     def _wave_four(self):
         print "3"
         self.wave=4
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         # Wave 4
         self.enemylist.append(enemy.Enemy((-438.3, 98.5, 43.5)))
         self.enemylist.append(enemy.Enemy((-443.2, 98.6, 40.5)))
@@ -117,10 +114,7 @@ class World(DirectObject):
         self.enemylist.append(enemy.Enemy((-462.0, 45.2, 41.7)))
     def _wave_five(self):
         self.wave=5
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         # Wave 5
         self.enemylist.append(enemy.Enemy((-469.4, -51.2, 49.9)))
         self.enemylist.append(enemy.Enemy((-447.1, -53.9, 53.4)))
@@ -128,20 +122,14 @@ class World(DirectObject):
         self.enemylist.append(enemy.Enemy((-430.7, -113.3, 53.2)))
     def _wave_six(self):
         self.wave=6
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         # Wave 6
         self.enemylist.append(enemy.Enemy((-246.0, -204.9, 70.0)))
         self.enemylist.append(enemy.Enemy((-207.1, -199.3, 71.7)))
         self.enemylist.append(enemy.Enemy((-188.3, -194.4, 72.7)))
     def _wave_seven(self):
         self.wave=7
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         
         # Wave 7
         self.enemylist.append(enemy.Enemy((-107.9, -153.4, 82.6)))
@@ -149,20 +137,14 @@ class World(DirectObject):
         self.enemylist.append(enemy.Enemy((-78.9, -118.3, 84.6)))
     def _wave_eight(self):
         self.wave=8
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         # Wave 8
         self.enemylist.append(enemy.Enemy((-61.4, -14.2, 92.8)))
         self.enemylist.append(enemy.Enemy((-64.3, 24.7, 98.9)))
         self.enemylist.append(enemy.Enemy((-71.8, 63.2, 99.6)))
     def _wave_nine(self):
         self.wave=9
-        for i in range(len(self.enemylist)):
-            self.enemylist[i]._model.delete()
-            self.enemylist[i].dead=True
-        self.enemylist = []
+        self._clear_enemies()
         # Wave 9
         self.enemylist.append(enemy.Enemy((-145.6, 159.2, 108.9)))
         self.enemylist.append(enemy.Enemy((-203.6, 185.9, 118.8)))
