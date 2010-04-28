@@ -36,10 +36,10 @@ class World(DirectObject): #necessary to accept events
         #other interval methods: loop(), pause(), resuem(), finish()
         #start() can take arguments: start(starttime, endtime, playrate)
         self.accept("arrow_up", self.setKey, ["forward", 1])
-        self.accept("arrow_left", self.setKey, ["left", 1]) 
+        self.accept("arrow_left", self.setKey, ["left", 1])
         self.accept("arrow_right", self.setKey, ["right", 1])
         self.accept("arrow_up-up", self.setKey, ["forward", 0])
-        self.accept("arrow_left-up", self.setKey, ["left", 0]) 
+        self.accept("arrow_left-up", self.setKey, ["left", 0])
         self.accept("arrow_right-up", self.setKey, ["right", 0])
         self.accept("arrow_down", self.setKey, ["reverse", 1])
         self.accept("arrow_down-up", self.setKey, ["reverse", 0])
@@ -50,7 +50,7 @@ class World(DirectObject): #necessary to accept events
 
     def setKey(self, key, value):
         self.keyMap[key] = value
-        
+
     def loadModels(self):
         """loads initial models into the world"""
         self.panda = Actor("panda-model", {"walk":"panda-walk4", "eat":"panda-eat"})
@@ -69,7 +69,7 @@ class World(DirectObject): #necessary to accept events
             target.setPos(random.uniform(-20, 20), i, 2)
             target.reparentTo(render)
             self.targets.append(target)
-        
+
     def setupLights(self):
         """Loads initial lighting"""
         self.dirLight = DirectionalLight("dirLight")
@@ -80,17 +80,17 @@ class World(DirectObject): #necessary to accept events
         #the NP that calls setLight is what is illuminated by the light
         #use clearLight() to turn it off
         #render.setLight(self.dirLightNP)
-        
+
         self.ambientLight = AmbientLight("ambientLight")
         self.ambientLight.setColor((.25, .25, .25, 1))
         self.ambientLightNP = render.attachNewNode(self.ambientLight)
         render.setLight(self.ambientLightNP)
-        
+
         self.headLight = Spotlight('headLight')
         self.headLight.setColor((1,1,1,1))
-        self.headLight.setLens(PerspectiveLens()) 
+        self.headLight.setLens(PerspectiveLens())
         self.headLight.getLens().setFov(45,15)
-        self.headLight.setAttenuation(Vec3(1.0,0.0,0.0)) 
+        self.headLight.setAttenuation(Vec3(1.0,0.0,0.0))
         self.headLight.setExponent(.5)
         self.headLightNP = self.panda.attachNewNode(self.headLight)
         self.headLightNP.setH(180)
@@ -100,7 +100,7 @@ class World(DirectObject): #necessary to accept events
         #Display the cone
         self.headLight.showFrustum()
         render.setLight(self.headLightNP)
-        
+
     def move(self, task):
         """Compound interval for walking"""
         self.cTrav.traverse(render)
@@ -116,13 +116,13 @@ class World(DirectObject): #necessary to accept events
             angle = deg2Rad(self.panda.getH())
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
-            self.panda.setPos(self.panda.getX() + dx, self.panda.getY() + dy, 0) 
+            self.panda.setPos(self.panda.getX() + dx, self.panda.getY() + dy, 0)
         if self.keyMap["reverse"]:
             dist = -.1
             angle = deg2Rad(self.panda.getH())
             dx = dist * math.sin(angle)
             dy = dist * -math.cos(angle)
-            self.panda.setPos(self.panda.getX() + dx, self.panda.getY() + dy, 0) 
+            self.panda.setPos(self.panda.getX() + dx, self.panda.getY() + dy, 0)
         if self.keyMap["left"] or self.keyMap["right"] or self.keyMap["forward"]:
             if self.isMoving == False:
                 self.isMoving = True
@@ -133,7 +133,7 @@ class World(DirectObject): #necessary to accept events
                 self.panda.pose("walk", 4)
                 self.isMoving = False
         self.prevtime = task.time
-        
+
         entries = []
         for i in range(self.ralphGroundHandler.getNumEntries()):
             entry = self.ralphGroundHandler.getEntry(i)
@@ -144,7 +144,7 @@ class World(DirectObject): #necessary to accept events
             self.panda.setZ(entries[0].getSurfacePoint(render).getZ())
         else:
             self.panda.setPos(startpos)
-        
+
         entries=[]
         for i in range(self.ralphGroundHandlerRear.getNumEntries()):
             entry = self.ralphGroundHandlerRear.getEntry(i)
@@ -156,7 +156,7 @@ class World(DirectObject): #necessary to accept events
         else:
             self.panda.setPos(startpos)
         return Task.cont
-    
+
     def setupCollisions(self):
         self.cHandler = CollisionHandlerEvent()
         #sets the pattern for the event sent on collision
@@ -164,7 +164,7 @@ class World(DirectObject): #necessary to accept events
         self.cHandler.setInPattern("ate-%in")
         #makes a collision traverser and sets it to the default
         base.cTrav = CollisionTraverser()
-        
+
         #cSphere = CollisionSphere((0,0,0), 500) #panda is scaled way down
         #cNode = CollisionNode("panda")
         #cNode.addSolid(cSphere)
@@ -173,7 +173,7 @@ class World(DirectObject): #necessary to accept events
         #cNodePath.show()
         #base.cTrav.addCollider(cNodePath, self.cHandler)
             #cNodePath.show()
-        
+
         self.cTrav = CollisionTraverser()
         self.ralphGroundRay = CollisionRay()
         self.ralphGroundRay.setOrigin(0,-250,1000)
@@ -186,7 +186,7 @@ class World(DirectObject): #necessary to accept events
         #self.ralphGroundColNp.show()
         self.ralphGroundHandler = CollisionHandlerQueue()
         self.cTrav.addCollider(self.ralphGroundColNp, self.ralphGroundHandler)
-        
+
         self.ralphGroundRayRear = CollisionRay()
         self.ralphGroundRayRear.setOrigin(0,250,1000)
         self.ralphGroundRayRear.setDirection(0,0,-1)
@@ -198,17 +198,16 @@ class World(DirectObject): #necessary to accept events
         #self.ralphGroundColNp.show()
         self.ralphGroundHandlerRear = CollisionHandlerQueue()
         self.cTrav.addCollider(self.ralphGroundColNpRear, self.ralphGroundHandlerRear)
-        
+
     def eat(self, cEntry):
         """handles panda eating a smiley"""
         self.targets.remove(cEntry.getIntoNodePath().getParent())
         cEntry.getIntoNodePath().getParent().remove()
-        
+
     def test_eat(self, cEntry):
         self.eat(cEntry)
         if len(self.targets) <= 0:
             sys.exit()
-            
+
 w = World()
 run()
-    

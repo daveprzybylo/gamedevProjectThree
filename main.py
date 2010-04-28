@@ -47,33 +47,33 @@ class World(DirectObject):
         self._wave_one()
         taskMgr.add(self._task_checkpoint, "world-task-checkpoint")
         taskMgr.add(self.task_artifact_spin,'artifact_spin')
-        
+
         base.cTrav = CollisionTraverser()
         self.cHandler = CollisionHandlerEvent()
         self.cHandler.setInPattern("artifact_gotten")
-        
+
         self.artifact = loader.loadModel(os.path.join('models','artifact'))
         self.artifact.setPos(-290,9,283)
         self.artifact.reparentTo(render)
-        
+
         cSphere = CollisionSphere(0,0,0,10)
         cNode = CollisionNode("artifact")
         cNode.addSolid(cSphere)
         cNode.setIntoCollideMask(BitMask32.bit(3))
-    
+
         cNodePath = self.artifact.attachNewNode(cNode)
         #cNodePath.show()
         self.player._coll_trav.addCollider(cNodePath, self.cHandler)
-        
+
         self.artifact_light = AmbientLight('artLight')
         self.artifact_light.setColor((.4,.4,.4,1))
         self.artifact_light_path = render.attachNewNode(self.artifact_light)
         self.artifact.setLight(self.artifact_light_path)
-        
+
 
     def _wave_one(self):
         self.wave=1
-        
+
         # Tutorial Enemy
         self.enemylist.append(enemy.Enemy((0, 0, 10)))
         # Wave 1
@@ -198,7 +198,7 @@ class World(DirectObject):
         if self.player._model.getZ() > 105  and self.wave==8:
             self._wave_nine()
         return Task.cont
-    
+
     def task_artifact_spin(self, task):
         self.artifact.setH(self.artifact.getH() + 2)
         return Task.cont

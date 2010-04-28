@@ -52,7 +52,7 @@ class Player(DirectObject):
         self._skybox = loader.loadModel(os.path.join("models", "sky"))
         self._skybox.reparentTo(render)
         self._skybox.setPos(0,0,3)
-        
+
 
     def _load_sounds(self):
         self._sound_toggle = loader.loadSfx(os.path.join("sounds", "headlight-toggle.mp3"))
