@@ -17,8 +17,7 @@ import sys
 
 class Enemy(DirectObject):
     def __init__(self, pos):
-        self.dead=False
-        self._is_moving=False
+        self.dead = False
         self._load_models(pos)
         self._setup_collisions()
         self._setup_tasks()
@@ -83,53 +82,50 @@ class Enemy(DirectObject):
         taskMgr.add(self._move, "task-enemy-move")
 
     def _move(self, task):
-        if self._is_moving==False:
-            self._is_moving=True
-            self._model.loop('enemove')
-        if self.dead==False:
-            et = task.time - self._prev_time
-            rotation_rate = 100
-            walk_rate = 25
+        if self.dead:
+            return Task.done
+        et = task.time - self._prev_time
+        rotation_rate = 100
+        walk_rate = 25
 
-            # Get current values
-            rotation = self._model.getH()
-            pos_x = self._model.getX()
-            pos_y = self._model.getY()
-            pos = self._model.getPos()
+        # Get current values
+        rotation = self._model.getH()
+        pos_x = self._model.getX()
+        pos_y = self._model.getY()
+        pos = self._model.getPos()
 
-            self._coll_trav.traverse(render)
+        self._coll_trav.traverse(render)
 
-            self._sight_handler_hi.sortEntries()
-            self._sight_handler_lo.sortEntries()
-            if self._sight_handler_hi.getNumEntries() and self._sight_handler_hi.getEntry(0).getIntoNode().getName() == 'collision-player-sphere' or \
-                self._sight_handler_lo.getNumEntries() and self._sight_handler_lo.getEntry(0).getIntoNode().getName() == 'collision-player-sphere':
-                rotation_rad = deg2Rad(rotation)
-                dx = et * walk_rate * math.sin(rotation_rad)
-                dy = et * walk_rate * -math.cos(rotation_rad)
-                pos_x += dx
-                pos_y += dy
-            else:
-                rotation += et * rotation_rate
+        self._sight_handler_hi.sortEntries()
+        self._sight_handler_lo.sortEntries()
+        if self._sight_handler_hi.getNumEntries() and self._sight_handler_hi.getEntry(0).getIntoNode().getName() == 'collision-player-sphere' or \
+            self._sight_handler_lo.getNumEntries() and self._sight_handler_lo.getEntry(0).getIntoNode().getName() == 'collision-player-sphere':
+            rotation_rad = deg2Rad(rotation)
+            dx = et * walk_rate * math.sin(rotation_rad)
+            dy = et * walk_rate * -math.cos(rotation_rad)
+            pos_x += dx
+            pos_y += dy
+        else:
+            rotation += et * rotation_rate
 
-            # Save back to the model
-            self._model.setH(rotation)
-            self._model.setX(pos_x)
-            self._model.setY(pos_y)
- 
-            self.pos = self._model.getPos()
+        # Save back to the model
+        self._model.setH(rotation)
+        self._model.setX(pos_x)
+        self._model.setY(pos_y)
 
-            entries = []
+        self.pos = self._model.getPos()
 
-            for i in range(self._ground_handler.getNumEntries()):
-                entries.append(self._ground_handler.getEntry(i))
+        entries = []
+        for i in range(self._ground_handler.getNumEntries()):
+            entries.append(self._ground_handler.getEntry(i))
 
-            entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
-                                      x.getSurfacePoint(render).getZ()))    
-            if entries and entries[0].getIntoNode().getName().find('terrain') != -1:
-                self._model.setZ(entries[0].getSurfacePoint(render).getZ() + .2)
-            else:
-                self._model.setPos(self.pos)
+        entries.sort(lambda x, y: cmp(y.getSurfacePoint(render).getZ(),
+                                    x.getSurfacePoint(render).getZ()))
+        if entries and entries[0].getIntoNode().getName().find('terrain') != -1:
+            self._model.setZ(entries[0].getSurfacePoint(render).getZ() + .2)
+        else:
+            self._model.setPos(self.pos)
 
-            self._prev_time = task.time
+        self._prev_time = task.time
 
-            return Task.cont
+        return Task.cont
