@@ -130,26 +130,27 @@ class World(DirectObject):
     def _wave_seven(self):
         self.wave=7
         self._clear_enemies()
-        
-        # Wave 7
-        self.enemylist.append(enemy.Enemy((-107.9, -153.4, 82.6)))
-        self.enemylist.append(enemy.Enemy((-94.1, -139.5, 84.5)))
-        self.enemylist.append(enemy.Enemy((-78.9, -118.3, 84.6)))
-    def _wave_eight(self):
-        self.wave=8
-        self._clear_enemies()
-        # Wave 8
-        self.enemylist.append(enemy.Enemy((-61.4, -14.2, 92.8)))
-        self.enemylist.append(enemy.Enemy((-64.3, 24.7, 98.9)))
-        self.enemylist.append(enemy.Enemy((-71.8, 63.2, 99.6)))
-    def _wave_nine(self):
-        self.wave=9
-        self._clear_enemies()
         # Wave 9
         self.enemylist.append(enemy.Enemy((-145.6, 159.2, 108.9)))
         self.enemylist.append(enemy.Enemy((-203.6, 185.9, 118.8)))
         self.enemylist.append(enemy.Enemy((-248.6, 186.0, 127.3)))
         # Wave 10
+        base.cTrav = CollisionTraverser()
+        self.cHandler = CollisionHandlerEvent()
+        self.cHandler.setInPattern("artifact_gotten")
+
+        self.artifact = loader.loadModel('panda')
+        self.artifact.setScale(.5)
+        self.artifact.setPos(-290,9,275)
+        self.artifact.reparentTo(render)
+
+        cSphere = CollisionSphere(0,0,0,10)
+        cNode = CollisionNode("artifact")
+        cNode.addSolid(cSphere)
+        cNode.setIntoCollideMask(BitMask32.bit(3))
+
+        cNodePath = self.artifact.attachNewNode(cNode)
+        base.cTrav.addCollider(cNodePath, self.cHandler)
 
     def _setup_lights(self):
         ambient = AmbientLight("light-ambient")
